@@ -30,5 +30,7 @@ Repository --> Pour chaque entité en base de données, il y a un repository.
     Fais office d'entity comme de repository (fais office d'objet image d'une table en BDD, mais contient aussi toutes les fonctions d'exploitation).
 
 .htaccess renvoie toujorus vers l'index et on gère l'url rewritting grâce au helper "router.class.php"
+
 bootstrap.php initialise les constantes et les variables importate du site
+
 routes.config.php contient tous les PATH important.
