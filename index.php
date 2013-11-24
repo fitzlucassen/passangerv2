@@ -19,6 +19,7 @@
 	$Route->GetByControllerAction($url['controller'], $url['action']);
     }
     if($Route->GetId() == 0){
+	// TODO: 404 redirect
 	die('Fausse route');
     }
     // On include la classe correspondant à la page souhaité

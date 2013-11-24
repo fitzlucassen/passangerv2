@@ -1,7 +1,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >
-<meta name="Description" content="" >
-<meta name="Author" content="">
+<meta name="Description" content="<?php echo $Model->_headerInformations['metaDescription']; ?>" >
+<meta name="Author" content="<?php echo $Model->_headerInformations['title']; ?>">
 
 <meta name="Revisit-after" content="15 days">
 <meta name="Publisher" content="">
@@ -11,11 +11,11 @@
 <meta name="Language" content="fr">
 <meta name="Viewport" content="initial-scale=1.0">
 
-<meta property="og:title" content="" />
+<meta property="og:title" content="<?php echo $Model->_headerInformations['title']; ?>" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="<?php echo $_SERVER['SERVER_NAME'] . '/'; ?>" />
 <meta property="og:image" content="../favicon.ico" />
-<meta property="og:description" content="" />
+<meta property="og:description" content="<?php echo $Model->_headerInformations['metaDescription']; ?>" />
 
 <link rel="icon" type="images/png" href="../favicon.ico" />
 <!--[if IE]>

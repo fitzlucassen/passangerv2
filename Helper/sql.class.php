@@ -4,7 +4,7 @@
       Déscription : Permet de gérer les données en base
      */
     class Sql extends Helper {
-	private $_db = 'lastrope';			// base de données 
+	private $_db = 'passangerv2';			// base de données 
 	private $_host = 'localhost';			// adresse de la base 
 	private $_user = 'root';			// nom 
 	private $_pwd = '';				// mot de passe 
@@ -18,7 +18,7 @@
 	    try  
 	    { 
 		$this->SetController($controller);
-		$this->_con = new PDO($this->GetDns(), $this->_user, $this->_pwd);
+		$this->_con = new PDO($this->GetDns(), $this->_user, $this->_pwd, array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
 
 		// pour mysql on active le cache de requête 
 		if($this->_con->getAttribute(PDO::ATTR_DRIVER_NAME) == 'mysql') 
