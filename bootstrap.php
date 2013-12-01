@@ -8,11 +8,19 @@
     require_once __helper_directory__ . '/session.class.php';
     require_once __helper_directory__ . '/view.class.php';
     require_once __helper_directory__ . '/router.class.php';
-    require_once __repository_directory__ . '/Header.class.php';
-    require_once __repository_directory__ . '/RouteUrl.class.php';
-    require_once __repository_directory__ . '/RewritingUrl.class.php';
     require_once __controller_directory__ . '/Controller.php';
 
+    spl_autoload_register(function ($class) {
+	$file = __entity_directory__ . '/' .trim(str_replace(array('\\', '_'), '/', $class), '/').'.php';
+	if(file_exists($file))
+	    require_once $file;
+	else {
+	    $file = __repository_directory__ . '/' .trim(str_replace(array('\\', '_'), '/', $class), '/').'.php';
+	    if(file_exists($file))
+		require_once $file;
+	}
+    });
+    
     // Initialisation de la session
     if(!isset($Session))
 	$Session = new Session("");
@@ -31,7 +39,7 @@
     if(!isset($Router)){
 	$Router = new Router();
 	// On ajoute toutes les routes présentes en base de données au router
-	$Router->AddRange(RouteUrl::GetAll($Connexion), $Session->Read("lang"), $Connexion);
+	$Router->AddRange(RouteUrlRepository::getAll($Connexion), $Session->Read("lang"), $Connexion);
     }	
     
     // Récupération de l'url de la page

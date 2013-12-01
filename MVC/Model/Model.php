@@ -7,7 +7,7 @@
 	public $_headerInformations = array();
 	
 	public function __construct($pdo, $lang) {
-	    $Header = Header::GetInstance($pdo, $lang);
-	    $this->_headerInformations = $Header->GetAllInformations();
+	    $Header = HeaderRepository::getInstance($pdo, $lang);
+	    $this->_headerInformations = $Header->getAll();
 	}
     }

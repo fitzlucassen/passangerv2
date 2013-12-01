@@ -14,8 +14,8 @@
 	
 	public static function AddRange($routes, $lang, $pdo) {
 	    foreach ($routes as $thisRoute){
-		$url = RewritingUrl::GetByIdRouteStatic($thisRoute['id'], $lang,$pdo);
-		self::Add($lang, $thisRoute['controller'], $thisRoute['action'], $url['urlMatched']);
+		$url = RewrittingUrlRepository::getByIdRouteStatic($thisRoute['id'], $lang,$pdo);
+		self::Add($lang, $thisRoute['controller'], $thisRoute['action'], $url->getUrlMatched());
 	    }
 	}
 	
