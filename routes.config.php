@@ -1,13 +1,21 @@
 <?php
+    // Définie les chemins d'accès à tous les dossiers importants
     define("__host_absolute__", "");
-    define("__js_directory__", __host_absolute__ . "Content/Js");
-    define("__css_directory__", __host_absolute__ . "Content/Css");
-    define("__image_directory__", __host_absolute__ . "Content/Media/Image");
-    define("__video_directory__", __host_absolute__ . "Content/Media/Video");
-    define("__partial_directory__", __host_absolute__ . "Partial");
-    define("__helper_directory__", __host_absolute__ . "Helper");
-    define("__repository_directory__", __host_absolute__ . "Repository");
-    define("__entity_directory__", __host_absolute__ . "Entity");
-    define("__view_directory__", __host_absolute__ . "MVC/View");
-    define("__controller_directory__", __host_absolute__ . "MVC/Controller");
-    define("__model_directory__", __host_absolute__ . "MVC/Model");
+    define("__data_directory__", __host_absolute__ . "Data");
+    define("__library_directory__", __host_absolute__ . "Library");
+    define("__website_directory__", __host_absolute__ . "Website");
+    
+    define("__helper_directory__", __library_directory__ . "/" . "Helper");
+    define("__component_directory__", __library_directory__ . "/" . "Component");
+    
+    define("__repository_directory__", __data_directory__ . "/" . "Repository");
+    define("__entity_directory__", __data_directory__ . "/"  . "Entity");
+    
+    define("__js_directory__", __website_directory__ . "/" . "Content/Js");
+    define("__css_directory__", __website_directory__ . "/" . "Content/Css");
+    define("__image_directory__", __website_directory__ . "/" . "Content/Media/Image");
+    define("__video_directory__", __website_directory__ . "/" . "Content/Media/Video");
+    define("__partial_directory__", __website_directory__ . "/" . "Partial");
+    define("__view_directory__", __website_directory__ . "/" . "MVC/View");
+    define("__controller_directory__", __website_directory__ . "/" . "MVC/Controller");
+    define("__model_directory__", __website_directory__ . "/" . "MVC/Model");

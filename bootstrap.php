@@ -10,6 +10,7 @@
     require_once __helper_directory__ . '/router.class.php';
     require_once __controller_directory__ . '/Controller.php';
 
+    // Auto-load pour les entity et les repository
     spl_autoload_register(function ($class) {
 	$file = __entity_directory__ . '/' .trim(str_replace(array('\\', '_'), '/', $class), '/').'.php';
 	if(file_exists($file))
