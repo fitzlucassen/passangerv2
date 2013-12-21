@@ -1,5 +1,5 @@
 <link type="text/css" rel="stylesheet" href="<?php echo __css_directory__;?>/home.css" />
-<title>Emoson - La communauté online des designers</title>
+<title>Passanger - Le groupe de progressif heavy métal français !</title>
 
 <?php
     // inclure ci-dessus les balises à inclure dans la balise <head> du layout

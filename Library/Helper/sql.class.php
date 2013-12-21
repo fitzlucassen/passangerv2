@@ -4,12 +4,12 @@
       Déscription : Permet de gérer les données en base
      */
     class Sql extends Helper {
-	private $_db = 'emoson';			// base de données 
+	private $_db = 'passangerv2';			// base de données 
 	private $_host = 'localhost';			// adresse de la base 
 	private $_user = 'root';			// nom 
 	private $_pwd = '';				// mot de passe 
 	private $_con = '';				// connexion PDO
-	private $_email = 'contact@emoson.fr';	// email de l'admin du site 
+	private $_email = 'contact@passanger.fr';	// email de l'admin du site 
 	
 	/*
 	 * Constructeur
