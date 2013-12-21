@@ -3,7 +3,7 @@
 	public static $_routes = array();
 	public static $_defaultController = "home";
 	public static $_defaultAction = "index";
-	public static $_regex = "A-Za-z0-9\-";
+	public static $_regex = "A-Za-z0-9\-\.";
 
 	/**
 	 * Add -> Ajoute une route à la collection
@@ -59,33 +59,109 @@
 			return self::GetRoutes($key);
 		}
 	    }
-	    else {
-		foreach (self::GetRoutes() as $key => $value) {
+	    else {		
+		$langInUrl = "";
+		if(isset($pattern) && !empty($pattern))
+		    $langInUrl = strpos($pattern, "/en/") === 0 ? "en" : "fr";
+		
+		$array = self::GetRoutes(null, $langInUrl);
+		foreach ($array as $key => $value) {
 		    $regex = "#" . preg_replace("#{([" . self::$_regex . "]+)}#i", "([" . self::$_regex . "]+)", $value["pattern"]) . "#i";
-
-		    if (preg_match($regex, $pattern)){
-			return self::GetRoutes($key);
+		    if (preg_match($regex, $pattern, $matches)){
+			if(isset($matches[1]) || isset($matches[0])){
+			    $i = 1;
+			    if(!isset($matches[1])){
+				$i = 0;
+			    }
+			    if(empty($matches[$i]))
+				return false;
+			    
+			    $index = strpos($pattern, $matches[$i]);
+			    
+			    if($i > 0){
+				if($pattern == "/" || (strpos(substr($regex, 1), substr($pattern, 0, $index)) === 0))
+				    return self::GetRoutes($key, $langInUrl);
+			    }
+			    else {
+				if($pattern == "/" || (strpos(substr($regex, 1), $pattern) === 0)){
+				    return self::GetRoutes($key, $langInUrl);
+				}
+			    }
+			}
+			else {
+			    if($pattern == "/" || (strpos(substr($regex, 1), $pattern) === 0))
+				return self::GetRoutes($key, $langInUrl);
+			}
 		    }
 		}
 	    }
 	    return false;
 	}
 	
+	/**
+	 * ReplacePattern -> remplace dans l'url fournit tous les pattern d'argument par le paramètre replace
+	 * @param type $url
+	 * @param type $replace
+	 * @return type
+	 */
 	public static function ReplacePattern($url, $replace){
 	    $regex = '/\{[' . self::$_regex . ']+\}/';
 	    
 	    if (preg_match($regex, $url, $match)){
 		return preg_replace($regex, $replace, $url);
 	    }
+	    else{
+		return $url;
+	    }
+	}
+	
+	/**
+	 * ReplaceParamsInUrl --> remplace tous les pattern d'argument d'une url par les vrai paramètres.
+	 * @param type $url
+	 * @param type $params
+	 * @return type
+	 */
+	private static function ReplaceParamsInUrl($url, $params){
+	    $newUrl = $url;
+	    $regex = '/\{[' . self::$_regex . ']+\}/';
+	    
+	    foreach($params as $thisParam){
+		$newUrl = preg_replace($regex, $thisParam, $newUrl, 1);	
+	    }
+	    
+	    return $newUrl;
+	}
+	
+	/**
+	 * GetUrlByLang -> retourne un array contenant pour la langue française et anglaise l'url rewwritté.
+	 * @param type $controller
+	 * @param type $action
+	 * @param type $params
+	 * @return type
+	 */
+	public static function GetUrlByLang($controller, $action, $params){
+	   return array('fr' => self::ReplaceParamsInUrl(self::FindRoute($controller, $action, 'fr'), $params), 
+			'en' => self::ReplaceParamsInUrl(self::FindRoute($controller, $action, 'en'), $params));
 	}
 	
 	/***********
 	 * Setters *
 	 ***********/
+	
+	/**
+	 * SetDefaultsRoutes
+	 * @param type $defaultController
+	 * @param type $defaultAction
+	 */
 	public static function SetDefaultsRoutes($defaultController, $defaultAction) {
 	    self::$_defaultController = $defaultController;
 	    self::$_defaultAction = $defaultAction;
 	}
+	
+	/**
+	 * SetRegex
+	 * @param type $regex
+	 */
 	public static function SetRegex($regex) {
 	    self::$_regex = $regex;
 	}
@@ -103,6 +179,7 @@
 	public static function GetRoutes($key = null, $lang = null) {
 	    if ($lang === null)
 		$lang = "fr";
+	    
 	    return ($key === null) ?
 		    ((isset(self::$_routes[$lang])) ? self::$_routes[$lang] : array() ) :
 		    ((isset(self::$_routes[$lang][$key])) ? self::$_routes[$lang][$key] : false );
@@ -164,11 +241,12 @@
 	    }
 	    else {
 		$route = array_values(array_filter(explode("/", $pattern)));
+		$debug = array_key_exists(0, $route) && array_key_exists(1, $route) ? "ok" : "default";
 		return array(
 		    "controller" => (array_key_exists(0, $route)) ? $route[0] : self::$_defaultController,
 		    "action" => (array_key_exists(1, $route)) ? $route[1] : self::$_defaultAction,
 		    "params" => array_slice($route, 2),
-		    "debug" => "default"
+		    "debug" => $debug
 		);
 	    }
 	}

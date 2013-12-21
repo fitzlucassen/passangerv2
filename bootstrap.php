@@ -3,14 +3,13 @@
     
     // Includes
     require_once 'routes.config.php';
-    require_once __helper_directory__ . '/helper.class.php';
-    require_once __helper_directory__ . '/sql.class.php';
-    require_once __helper_directory__ . '/session.class.php';
-    require_once __helper_directory__ . '/view.class.php';
-    require_once __helper_directory__ . '/router.class.php';
+    require_once 'app.class.php';
+    require_once __component_directory__ . '/viewException.class.php';
+    require_once __component_directory__ . '/connexionException.class.php';
+    require_once __component_directory__ . '/controllerException.class.php';
     require_once __controller_directory__ . '/Controller.php';
 
-    // Auto-load pour les entity et les repository
+    // Auto-load pour les entity et les repository et les helper
     spl_autoload_register(function ($class) {
 	$file = __entity_directory__ . '/' .trim(str_replace(array('\\', '_'), '/', $class), '/').'.php';
 	if(file_exists($file))
@@ -19,8 +18,17 @@
 	    $file = __repository_directory__ . '/' .trim(str_replace(array('\\', '_'), '/', $class), '/').'.php';
 	    if(file_exists($file))
 		require_once $file;
+	    else {
+		$file = __helper_directory__ . '/' . strtolower(trim(str_replace(array('\\', '_'), '/', $class), '/')) . '.class.php';
+		if(file_exists($file))
+		    require_once $file;
+	    }
 	}
     });
+    
+    // Initialisation du gestionnaire d'erreur
+    if(!isset($ErrorManager))
+	$ErrorManager = new Error("");
     
     // Initialisation de la session
     if(!isset($Session))
@@ -29,22 +37,33 @@
 	$Session->Write("lang", "fr");
 
     // Initialisation base de données
-    if(!isset($Connexion))
-	$Connexion = new Sql();
-    
-    // Initialisation du helper des vues
-    if(!isset($ViewHelper))
-	$ViewHelper = new View($Connexion, $Session->read('lang'));
+    if(!isset($Connexion)){
+	try{
+	    $Connexion = new Sql();
+	}
+	catch(ConnexionException $e){
+	    echo $ErrorManager->noConnexionAvailable();
+	    die();
+	}
+    }
     
     // Initialisation du helper des routes
     if(!isset($Router)){
 	$Router = new Router();
 	// On ajoute toutes les routes présentes en base de données au router
-	$Router->AddRange(RouteUrlRepository::getAll($Connexion), $Session->Read("lang"), $Connexion);
+	
+	$LangRepository = new LangRepository($Connexion);
+	foreach($LangRepository->getAll() as $thisLang){
+	    $Router->AddRange(RouteUrlRepository::getAll($Connexion), $thisLang['code'], $Connexion);
+	}
     }	
     
     // Récupération de l'url de la page
     $page = $_SERVER['REQUEST_URI'];
+    if(strpos($page, "/en/") === 0)
+	$Session->Write("lang", "en");
+    else
+	$Session->Write("lang", "fr");
     
     // Pour gérer les différents devices
     $useragent = $_SERVER['HTTP_USER_AGENT'];

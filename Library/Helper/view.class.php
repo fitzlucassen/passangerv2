@@ -20,6 +20,7 @@
 	    $Model = $model;
 	    include $view;
 	}
+	
 	/**
 	 * ViewCompact -> la méthode complète d'appel à une vue
 	 * @param type $controller
@@ -27,33 +28,51 @@
 	 * @param type $compact
 	 */
 	public function ViewCompact($controller, $action, $compact){
+	    if(!isset($compact['Model']))
+		throw new ViewException();
+	    
 	    $Model = $compact['Model'];
 	    $Model->_controller = $controller;
 	    $Model->_action = $action;
 	    
-	    $Model->_extraParams = $this->GetMoreHeadCssAndJs($Model);
+	    // Mise en cache de la vue
+	    ob_start();
+	    include __view_directory__ . "/" . $Model->_controller . "/" . $Model->_action . ".php";
+	    $content = ob_get_clean();
 	    
-	    //include $compact['View'];
+	    // On récupère le contenue en cache
+	    $Model->_head = $head;
+	    $Model->_content = $content;	    
+	    
+	    // Et on inclue le layout/vue
 	    include(__view_directory__ . "/layout.php");
 	}
 	
 	/**
-	 * GetMoreHeadCssAndJs -> Met en forme les fichier CSS et les fichier JS à inclure par page en + du template
-	 * @param type $Model
+	 * ContainsTitle -> retourne vrai si la chaine contient la balise title
+	 * @param type $string
 	 * @return type
 	 */
-	private function GetMoreHeadCssAndJs($Model){
-	    $title = $Model->_title;
-	    $html = $Model->_html;
-	    $css = "";
-	    $js = "";
-	    foreach($Model->_css as $thisCss){
-		$css .= '<link type="text/css" rel="stylesheet" href="' . __css_directory__ . '/' . $thisCss . '.css" />';
-	    }
-	    foreach($Model->_js as $thisJs){
-		$js .= '<script type="text/javascript" src="' . __js_directory__ . '/' . $thisJs . '.js" />';
-	    }
+	public function ContainsTitle($string){
+	    return !empty($string) && strpos($string, "<title>") !== false;
+	}
+	
+	/**
+	 * Render -> affiche le html passé en paramètre
+	 * @param type $string
+	 */
+	public function Render($string){
+	    echo $string;
+	}
+	
+	/**
+	 * RegisterViewHead -> enregistre le head de la vue
+	 * @return type
+	 */
+	public function RegisterViewHead(){
+	    $head = ob_get_clean();
+	    ob_start();
 	    
-	    return array('title' => $title, 'css' => $css, 'js' => $js, 'html' => $html);
+	    return $head;
 	}
     }

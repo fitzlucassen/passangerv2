@@ -7,19 +7,14 @@
 	public $_headerInformations = array();
 	public $_controller = "home";
 	public $_action = "index";
-	public $_title = "";
-	public $_js = array();
-	public $_css = array();
-	public $_html = "";
-	public $_extraParams = array();
+	public $_head = "";
+	public $_content = "";
+	public $_params = array();
 	
-	public function __construct($pdo, $lang, $title = "", $css = array(), $js = array(), $html = "") {
+	public function __construct($pdo, $lang, $params = array()) {
+	    // Les configuration de base générale pour le site en BDD
 	    $Header = HeaderRepository::getInstance($pdo, $lang);
 	    $this->_headerInformations = $Header->getAll();
-	    
-	    $this->_title = $title;
-	    $this->_css = $css;
-	    $this->_js = $js;
-	    $this->_html = $html;
+	    $this->_params = $params;
 	}
     }

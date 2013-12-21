@@ -4,12 +4,12 @@
       Déscription : Permet de gérer les données en base
      */
     class Sql extends Helper {
-	private $_db = 'passangerv2';			// base de données 
+	private $_db = 'emoson';			// base de données 
 	private $_host = 'localhost';			// adresse de la base 
 	private $_user = 'root';			// nom 
 	private $_pwd = '';				// mot de passe 
 	private $_con = '';				// connexion PDO
-	private $_email = 'contact@passanger.fr';	// email de l'admin du site 
+	private $_email = 'contact@emoson.fr';	// email de l'admin du site 
 	
 	/*
 	 * Constructeur
@@ -23,14 +23,10 @@
 		// pour mysql on active le cache de requête 
 		if($this->_con->getAttribute(PDO::ATTR_DRIVER_NAME) == 'mysql') 
 		    $this->_con->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true); 
-
-		return $this->_con; 
 	    } 
 	    catch(PDOException $e) { 
 		//On indique par email qu'on n'a plus de connection disponible 
-		error_log(date('D/m/y') . ' à ' . date("H:i:s") . ' : ' . $e->getMessage(), 1, $this->_email); 
-		$message = new Message(); 
-		$message->outPut('Erreur 500', 'Serveur de BDD indisponible, nous nous excusons de la gêne occasionnée'); 
+		throw new ConnexionException();
 	    } 
 	}
 	

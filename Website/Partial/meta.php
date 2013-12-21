@@ -26,13 +26,13 @@
 <link rel="apple-touch-icon" sizes="72x72" href="../favicon72.png" />
 <link rel="apple-touch-icon" sizes="114x114" href="../favicon114.png" />
 
-<link type="text/css" rel="stylesheet" href="<?php echo __css_directory__; ?>/Base/reset.css" />
-<link type="text/css" rel="stylesheet" href="<?php echo __css_directory__; ?>/Base/base.css" />
+<link type="text/css" rel="stylesheet" href="/<?php echo __css_directory__; ?>/Base/reset.css" />
+<link type="text/css" rel="stylesheet" href="/<?php echo __css_directory__; ?>/Base/base.css" />
 
 <!-- Required script -->
-<script type="text/javascript" src="<?php echo __js_directory__  ; ?>/Base/jquery-1.10.min.js"></script>
-<script type="text/javascript" src="<?php echo __js_directory__  ; ?>/Base/base.js"></script>
-<script type="text/javascript" src="<?php echo __js_directory__  ; ?>/Base/helper.js"></script>
+<script type="text/javascript" src="/<?php echo __js_directory__  ; ?>/Base/jquery-1.10.min.js"></script>
+<script type="text/javascript" src="/<?php echo __js_directory__  ; ?>/Base/base.js"></script>
+<script type="text/javascript" src="/<?php echo __js_directory__  ; ?>/Base/helper.js"></script>
 
 <!--[if lt IE 9]>
 	<script src="<?php echo __js_directory__  ; ?>/Base/html5shiv.js"></script>
