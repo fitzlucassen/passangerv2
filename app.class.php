@@ -16,6 +16,7 @@
 	private $_errorManager = null;
 	private $_isOnMobile = false;
 	private $_userAgent = "";
+	private $_isValidUrl = false;
 	
 	public function __construct() {
 	    $this->_errorManager = new Error("");
@@ -65,15 +66,19 @@
 	    $this->_lang = $this->_session->Read("lang");
 	    
 	    $this->_rewrittingUrlRepository = new RewrittingUrlRepository($this->_pdo, $this->_lang);
-	    $this->_url = $this->_rewrittingUrlRepository->getByUrlMatched($this->_page);	    
+	    $this->_url = $this->_rewrittingUrlRepository->getByUrlMatched($this->_page);
 	}
 	
 	/**
 	 * Manage404Route -> gère le routing vers la page 404 si la page n'existe pas
 	 */
 	public function Manage404Route(){
+	    $c = $this->_routeUrl->getController() . 'Controller';
+	    $c2 = __controller_directory__ . '/' . $c . '.php';
+	    $this->_isValidUrl = file_exists($c2) && class_exists($c);
+	    
 	    // Si l'url n'existe pas on redirige vers la page 404
-	    if($this->_routeUrl->getId() == 0 || ($this->_url["debug"] == "default" && $this->_page != '/')){
+	    if((!$this->_isValidUrl && $this->_routeUrl->getId() == 0) || ($this->_url["debug"] == "default" && $this->_page != '/')){
 		$this->_routeUrl = $this->_routeUrlRepository->getByRouteName('error404');
 		$this->_rewrittingUrl = $this->_rewrittingUrlRepository->getByIdRoute($this->_routeUrl->getId());
 
@@ -108,7 +113,10 @@
 	 * ManageController -> set le nom du controller
 	 */
 	public function ManageController(){
-	    $this->_controllerName = $this->_routeUrl->getController() . 'Controller';
+	    if($this->_isValidUrl && $this->_routeUrl->getId() == 0)
+		$this->_controllerName = $this->_url['controller'] . "Controller";
+	    else
+		$this->_controllerName = $this->_routeUrl->getController() . 'Controller';
 	    
 	    try {
 		// On vérifie que le fichier de la classe de ce controller existe bien
@@ -138,7 +146,11 @@
 	 */
 	public function ManageAction(){
 	    // On instancie le controller
-	    $this->_actionName = $this->_routeUrl->getAction();
+	    if($this->_isValidUrl && $this->_routeUrl->getId() == 0)
+		$this->_actionName = $this->_url['action'];
+	    else
+		$this->_actionName = $this->_routeUrl->getAction();
+	    
 	    $this->_controller = new $this->_controllerName($this->_pdo, $this->_lang, $this->_actionName);
 	    
 	    // On exécute l'action cible du controller et on affiche la vue avec le modèle renvoyé
