@@ -167,6 +167,10 @@
 		$this->_errorManager->actionDoesntExist($e->getParams());
 		die();
 	    }
+	    catch(ViewException $ex){
+		$this->_errorManager->noModelProvided($ex->getParams());
+		die();
+	    }
 	}
 	
 	/**
