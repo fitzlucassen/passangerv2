@@ -23,5 +23,5 @@
     // End router config
     
     $App = new App();
-    $App->setIsDebugMode(true);
+    $App->setIsDebugMode(false);
     $App->run();

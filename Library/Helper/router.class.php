@@ -70,9 +70,13 @@
 		    $langInUrl = false;
 		    
 		    foreach(self::$_langs as $thisLang){
-			$langInUrl = strpos($pattern, "/" . $thisLang . "/") === 0 ? $thisLang : self::$_defaultLang;
+			if(strpos($pattern, "/" . $thisLang . "/") === 0)
+			    $langInUrl = $thisLang;			    
 		    }
+		    if(!$langInUrl)
+			$langInUrl = self::$_defaultLang;
 		}
+		
 		$array = self::GetRoutes(null, $langInUrl);
 		foreach ($array as $key => $value) {
 		    $regex = "#" . preg_replace("#{([" . self::$_regex . "]+)}#i", "([" . self::$_regex . "]+)", $value["pattern"]) . "#i";
