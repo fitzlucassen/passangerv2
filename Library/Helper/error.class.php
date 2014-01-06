@@ -16,15 +16,19 @@
 	    header('location: /Error/noConnexionAvailable');
 	}
 	
-	public function noModelProvided($controller, $action){
-	    header('location: /Error/noModelProvided/' . $controller . '/' . $action);
+	public function noModelProvided($params){
+	    header('location: /Error/noModelProvided/' . $params['controller'] . '/' . $params['action']);
 	}
 	
-	public function controllerClassDoesntExist($controller){
-	    header('location: /Error/controllerClassDoesntExist/' . $controller);
+	public function controllerClassDoesntExist($params){
+	    header('location: /Error/controllerClassDoesntExist/' . $params['file']);
 	}
 	
-	public function controllerInstanceFailed($controller){
-	    header('location: /Error/controllerInstanceFailed/' . $controller);
+	public function controllerInstanceFailed($params){
+	    header('location: /Error/controllerInstanceFailed/' . $params['controller']);
+	}
+	
+	public function actionDoesntExist($params){
+	    header('location: /Error/actionDoesntExist/' . $params['controller'] . '/' . $params['action']);
 	}
     }

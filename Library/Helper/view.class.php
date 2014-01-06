@@ -29,7 +29,7 @@
 	 */
 	public function ViewCompact($controller, $action, $compact){
 	    if(!isset($compact['Model']))
-		throw new ViewException();
+		throw new ViewException(array("controller" => $controller, "action" => $action));
 	    
 	    $Model = $compact['Model'];
 	    $Model->_controller = $controller;

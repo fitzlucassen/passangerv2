@@ -15,6 +15,13 @@
     Sql::SetPwd("");
     // End SQL config
     
-    $App = new App();
+    // FOR DEVELOPER ONLY
+    // Put your router config here
+    Router::SetDefaultAction("index");
+    Router::SetDefaultController("home");
+    Router::SetDefaultLanguage("fr");
+    // End router config
     
+    $App = new App();
+    $App->setIsDebugMode(true);
     $App->run();

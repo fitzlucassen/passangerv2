@@ -17,6 +17,7 @@
 	private $_isOnMobile = false;
 	private $_userAgent = "";
 	private $_isValidUrl = false;
+	private $_isDebugMode = false;
 	
 	public function __construct() {
 	    $this->_errorManager = new Error("");
@@ -75,7 +76,12 @@
 	public function Manage404Route(){
 	    $c = $this->_routeUrl->getController() . 'Controller';
 	    $c2 = __controller_directory__ . '/' . $c . '.php';
-	    $this->_isValidUrl = file_exists($c2) && class_exists($c);
+	    
+	    if($this->_isDebugMode)
+		$this->_isValidUrl = file_exists($c2) && class_exists($c);
+	    else
+		$this->_isValidUrl = $c != 'Controller' && file_exists($c2) && class_exists($c);
+
 	    
 	    // Si l'url n'existe pas on redirige vers la page 404
 	    if((!$this->_isValidUrl && $this->_routeUrl->getId() == 0) || ($this->_url["debug"] == "default" && $this->_page != '/')){
@@ -122,20 +128,20 @@
 		// On vérifie que le fichier de la classe de ce controller existe bien
 		$controllerFile = __controller_directory__ . '/' . $this->getControllerName() . '.php';
 		if(!file_exists($controllerFile))
-		    throw new ControllerException(ControllerException::NOT_FOUND);
+		    throw new ControllerException(ControllerException::NOT_FOUND, array('file' => $controllerFile));
 
 		// On vérifie que la classe existe bien
 		if(!class_exists($this->getControllerName()))
-		    throw new ControllerException(ControllerException::INSTANCE_FAIL);
+		    throw new ControllerException(ControllerException::INSTANCE_FAIL, array('controller' => $this->_controllerName));
 	    }
 	    catch(ControllerException $e){
 		// On gère les erreur de façon personnalisée
 		if($e->getType() == ControllerException::INSTANCE_FAIL){
-		    echo $this->_errorManager->controllerInstanceFailed($this->getControllerName());
+		    $this->_errorManager->controllerInstanceFailed($e->getParams());
 		    die();
 		}
 		else{
-		    echo $this->_errorManager->controllerClassDoesntExist($this->getControllerName());
+		    $this->_errorManager->controllerClassDoesntExist($e->getParams());
 		    die();
 		}
 	    }
@@ -157,8 +163,8 @@
 	    try{
 		$this->ExecuteAction();
 	    }
-	    catch(ViewException $e){
-		echo $this->_errorManager->noModelProvided($this->getControllerName(), $this->getActionName());
+	    catch(ControllerException $e){
+		$this->_errorManager->actionDoesntExist($e->getParams());
 		die();
 	    }
 	}
@@ -168,6 +174,10 @@
 	 */
 	public function ExecuteAction(){
 	    $actionName = $this->_actionName;
+	    
+	    if(!method_exists($this->_controllerName, $this->_actionName))
+		throw new ControllerException(ControllerException::ACTION_NOT_FOUND, array("controller" => $this->_url['controller'], "action" => $this->_url['action']));
+	    
 	    // Si on a des paramètres dans l'url
 	    if(isset($this->_url["params"])){
 		$this->_controller->$actionName($this->_url["params"]);
@@ -224,5 +234,15 @@
 	}
 	public function getActionName(){
 	    return $this->_actionName;
+	}
+	public function getIsDebugMode(){
+	    return $this->_isDebugMode;
+	}
+	
+	/***********
+	 * SETTERS *
+	 ***********/
+	public function setIsDebugMode($arg){
+	    $this->_isDebugMode = $arg;
 	}
     }

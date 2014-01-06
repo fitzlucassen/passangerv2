@@ -1,11 +1,11 @@
 <?php
     class Router {
-	public static $_routes = array();
-	public static $_defaultController = "home";
-	public static $_defaultAction = "index";
-	public static $_defaultLang = "fr";
-	public static $_regex = "A-Za-z0-9\-\.";
-	public static $_langs = array();
+	private static $_routes = array();
+	private static $_defaultController = "home";
+	private static $_defaultAction = "index";
+	private static $_defaultLang = "fr";
+	private static $_regex = "A-Za-z0-9\-\.";
+	private static $_langs = array();
 
 	/**
 	 * Add -> Ajoute une route à la collection
@@ -73,7 +73,6 @@
 			$langInUrl = strpos($pattern, "/" . $thisLang . "/") === 0 ? $thisLang : self::$_defaultLang;
 		    }
 		}
-		
 		$array = self::GetRoutes(null, $langInUrl);
 		foreach ($array as $key => $value) {
 		    $regex = "#" . preg_replace("#{([" . self::$_regex . "]+)}#i", "([" . self::$_regex . "]+)", $value["pattern"]) . "#i";

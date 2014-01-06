@@ -43,4 +43,13 @@
 	    
 	    $this->_view->ViewCompact($this->_controller, $this->_action, array('Model' => $Model));
 	}
+	
+	public function actionDoesntExist($params){
+	    $Model = new ErrorModel($this->_pdo, $this->_lang, $params);
+	    
+	    $Model->_controllerTarget = $params[0];
+	    $Model->_modelTarget = $params[1];
+
+	    $this->_view->ViewCompact($this->_controller, $this->_action, array('Model' => $Model));
+	}
     }
