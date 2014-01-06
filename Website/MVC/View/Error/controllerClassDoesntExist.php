@@ -1,4 +1,4 @@
-<link type="text/css" rel="stylesheet" href="<?php echo __css_directory__;?>/error.css" />
+<link type="text/css" rel="stylesheet" href="/<?php echo __css_directory__;?>/error.css" />
 <title>Erreur !</title>
 
 <?php
@@ -8,7 +8,7 @@
     // Intégrer ci-dessous la vue
 ?>
 
-<div class="errorPage">
+<div id="ErrorPage">
     <p>Visiblement, le contrôleur que vous essayer d'inclure n'existe pas</p>
     <ul>
 	<li>Vérifier que le fichier <b><?php echo $Model->_controllerTarget; ?></b> existe bien dans le dossier <i>Website/MVC/Controller</i></li>
