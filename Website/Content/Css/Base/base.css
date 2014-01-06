@@ -26,53 +26,6 @@ html, body{
     background-attachment: fixed;
     overflow: hidden;
 }
-.emptyCase{
-    opacity: 0.1;
-    background: #fff;
-    float: left;
-    border: 1px solid #000;
-    
-    box-shadow: 1px 1px 2px rgba(0,0,0,0.6);
-    -webkit-box-shadow: 1px 1px 2px rgba(0,0,0,0.6);
-    -moz-box-shadow: 1px 1px 2px rgba(0,0,0,0.6);
-    -o-box-shadow: 1px 1px 2px rgba(0,0,0,0.6);
-    -ms-box-shadow: 1px 1px 2px rgba(0,0,0,0.6);
-}
-
-.caseFull{
-    background: #000;
-    opacity: 0.8;
-    cursor: pointer;
-    font-family: 'Hasteristico';
-    text-align: center;
-    
-    
-    transition: all 0.6s linear;
-    -webkit-transition: all 0.6s linear;
-    -moz-transition: all 0.6s linear;
-    -o-transition: all 0.6s linear;
-    -ms-transition: all 0.6s linear;
-}
-.caseFull h1, .caseFull h2{
-    padding-top: 78px;
-    font-size: 20px;
-    color: #fff;
-    
-    transition: all 0.6s linear;
-    -webkit-transition: all 0.6s linear;
-    -moz-transition: all 0.6s linear;
-    -o-transition: all 0.6s linear;
-    -ms-transition: all 0.6s linear;
-}
-.caseFull:hover{
-    background: #fff;
-}
-.caseFull:hover h2, .caseFull:hover h1{
-    color: #000;
-}
-
-header, #header{
-}
 
 .title{
     padding: 10px 0;
