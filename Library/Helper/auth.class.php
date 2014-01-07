@@ -1,28 +1,41 @@
 <?php
-    class Auth extends Helper {
-	private $_user = null;
-
-	public function __construct($controller, $params = null) {
-	    parent::__construct($controller, $params);
+    class Auth {
+	private static $_user = null;
+	private static $_pdo = null;
+	
+	public static function connect($login, $pwd) {
+	    $UserRepository = new UserRepository(self::$_pdo, Session::Read("lang"));
+	    $user = $UserRepository->getByLogin($login, $pwd);
+	    
+	    if(array_key_exists($user, 'id')){
+		Session::Write("Auth", $user['id']);
+		self::$_user = $user;
+		return self::$_user;
+	    }
+	    else{
+		return false;
+	    }
 	}
 
-	public function __transmit($params) {
-	    return array("user" => $this->getUser());
+	public static function disconnect() {
+	    Session::clear("Auth");
 	}
-
-	public function Connect($pseudo, $pwd) {
-
+	
+	/***********
+	 * GETTERS *
+	 ***********/
+	public static function getUser() {
+	    return self::$_user;
 	}
-
-	public function Disconnect() {
-	    $this->_controller->Session->clear("Auth");
+	
+	public static function getPdo(){
+	    return self::$_pdo;
 	}
-
-	public function GetUser() {
-
-	}
-
-	public function Persist() {
-	    // fait une connexion persistant en cookie (cf. tuto grafikart)
+	
+	/***********
+	 * SETTERS *
+	 ***********/
+	public static function setPdo($arg){
+	    self::$_pdo = $arg;
 	}
     }

@@ -15,12 +15,22 @@
     Sql::SetPwd("");
     // End SQL config
     
-    // FOR DEVELOPER ONLY
+    /* FOR DEVELOPER ONLY */
     // Put your router config here
     Router::SetDefaultAction("index");
     Router::SetDefaultController("home");
     Router::SetDefaultLanguage("fr");
     // End router config
+
+    // Put your logger config here
+    Logger::setLogFile(__log_directory__ . '/log.txt');
+    Logger::setExpireTime(3600);
+    // End logger config
+    
+    // Put your Cache config here
+    Cache::setCacheFolder(__cache_directory__ . '/');
+    Cache::setExpireTime(3600);
+    // End logger config
     
     $App = new App();
     $App->setIsDebugMode(false);

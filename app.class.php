@@ -33,7 +33,7 @@
 		    $this->_pdo = new Sql();
 		}
 		catch(ConnexionException $e){
-		    echo $this->_errorManager->noConnexionAvailable();
+		    $this->_errorManager->noConnexionAvailable();
 		    die();
 		}
 	    }
@@ -53,14 +53,25 @@
 	    // On ajoute toutes les routes présentes en base de données au router
 	    $this->_langRepository = new LangRepository($this->_pdo);
 	    $langInUrl = false;
-	    foreach($this->_langRepository->getAll() as $thisLang){
-		Router::AddRange(RouteUrlRepository::getAll($this->_pdo), $thisLang['code'], $this->_pdo);
+	    
+	    // Insertion des routes en cache
+	    if(!$langs = Cache::read("lang")){
+		$langs = $this->_langRepository->getAll();
+		Cache::write("lang", $langs);
+	    }
+	    foreach($langs as $thisLang){
+		if(!$routes = Cache::read("routeurl")){
+		    $routes = RouteUrlRepository::getAll($this->_pdo);
+		    Cache::write("routeurl", $routes);
+		}
+		Router::AddRange($routes, $thisLang['code'], $this->_pdo);
 		if(strpos($this->_page, "/" . $thisLang['code'] . "/") === 0){
 		    $this->_session->Write("lang", $thisLang['code']);
 		    $langInUrl = true;
 		}
 	    }
-	    
+	    // Fin route
+
 	    if(!$langInUrl)
 		$this->_session->Write("lang", "fr");
 	    
@@ -85,8 +96,10 @@
 	    
 	    // Si l'url n'existe pas on redirige vers la page 404
 	    if((!$this->_isValidUrl && $this->_routeUrl->getId() == 0) || ($this->_url["debug"] == "default" && $this->_page != '/')){
+		Logger::write("Redirection vers la page 404 sur l'url : " . $this->_page);
+		
 		$this->_routeUrl = $this->_routeUrlRepository->getByRouteName('error404');
-		$this->_rewrittingUrl = $this->_rewrittingUrlRepository->getByIdRoute($this->_routeUrl->getId());
+		$this->_rewrittingUrl = $this->_rewrittingUrlRepository->getByIdRouteUrl($this->_routeUrl->getId());
 
 		header('location:' . Router::ReplacePattern($this->_rewrittingUrl->getUrlMatched(), $this->_page));
 	    }
@@ -102,7 +115,7 @@
 	    if(!isset($this->_url['controller']) || empty($this->_url['controller']) || ($this->_url["debug"] == "default" && $this->_page == '/')){
 		// On récupère la route de la homepage et on en déduit l'objet rewritting
 		$this->_routeUrl = $this->_routeUrlRepository->getByRouteName('Home');
-		$this->_rewrittingUrl = $this->_rewrittingUrlRepository->getByIdRoute($this->_routeUrl->getId());
+		$this->_rewrittingUrl = $this->_rewrittingUrlRepository->getByIdRouteUrl($this->_routeUrl->getId());
 		
 		return false;
 	    }
@@ -137,10 +150,12 @@
 	    catch(ControllerException $e){
 		// On gère les erreur de façon personnalisée
 		if($e->getType() == ControllerException::INSTANCE_FAIL){
+		    Logger::write(ControllerException::INSTANCE_FAIL . " : controllerInstanceFailed " . implode(' ', $e->getParams()));
 		    $this->_errorManager->controllerInstanceFailed($e->getParams());
 		    die();
 		}
 		else{
+		    Logger::write(ControllerException::NOT_FOUND . " : controllerClassDoesntExist " . implode(' ', $e->getParams()));
 		    $this->_errorManager->controllerClassDoesntExist($e->getParams());
 		    die();
 		}
@@ -164,10 +179,12 @@
 		$this->ExecuteAction();
 	    }
 	    catch(ControllerException $e){
+		Logger::write(ControllerException::ACTION_NOT_FOUND . " : actionDoesntExist " . implode(' ', $e->getParams()));
 		$this->_errorManager->actionDoesntExist($e->getParams());
 		die();
 	    }
 	    catch(ViewException $ex){
+		Logger::write("ViewException : noModelProvided " . implode(' ', $e->getParams()));
 		$this->_errorManager->noModelProvided($ex->getParams());
 		die();
 	    }
@@ -241,6 +258,9 @@
 	}
 	public function getIsDebugMode(){
 	    return $this->_isDebugMode;
+	}
+	public function getPdo(){
+	    return $this->_pdo;
 	}
 	
 	/***********

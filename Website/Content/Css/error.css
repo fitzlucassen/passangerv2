@@ -1,3 +1,7 @@
+#global{
+    background: #ffffff;
+}
+
 #ErrorPage p {
     text-align: center;
     color: white;
