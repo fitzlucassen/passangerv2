@@ -7,6 +7,7 @@
 	private $_langRepository = null;
 	private $_url = "";
 	private $_page = "";
+	private $_isInErrorPage = false;
 	
 	private $_pdo = null;
 	private $_lang = "";
@@ -20,6 +21,7 @@
 	private $_userAgent = "";
 	private $_isValidUrl = false;
 	private $_isDebugMode = false;
+	private $_repositoryManager = null;
 	
 	public function __construct() {
 	    // L'url cible
@@ -29,7 +31,9 @@
 	    $this->_errorManager = new Error("");
 	    // Initialisation de la session
 	    $this->_session = new Session("");
-	    
+	    // Booléen permettant de savoir s on est sr une page erreur
+	    $this->_isInErrorPage = strpos($this->_page, '/Error/') !== false;
+
 	    // Si on a pas de langue on session on set celle par défaut
 	    if(!$this->_session->ContainsKey("lang"))
 		$this->_session->Write("lang", Router::GetDefaultLanguage());
@@ -37,8 +41,9 @@
 	    // Initialisation base de données sauf si on est sur une page d'erreur
 	    if(!isset($this->_pdo)){
 		try{
-		    if(strpos($this->_page, '/Error/') === false){
+		    if(!$this->_isInErrorPage){
 			$this->_pdo = new Sql();
+			$this->_repositoryManager = new Repository($this->_pdo, $this->_session->read('lang'));
 		    }
 		}
 		catch(ConnexionException $e){
@@ -83,9 +88,10 @@
 	    
 	    
 	    $langInUrl = false;
+	    
 	    // On récupère les routes en base de données seulement si on est pas sur une page d'erreur
-	    if(strpos($this->_page, '/Error/') === false){
-		$this->_langRepository = new LangRepository($this->_pdo);
+	    if(!$this->_isInErrorPage){
+		$this->_langRepository = $this->_repositoryManager->get('Lang');
 		
 		// Si les langues ne sont pas encore en cache on requête en BDD
 		if(!$langs = Cache::read("lang")){
@@ -123,8 +129,8 @@
 	    $this->_lang = $this->_session->Read("lang");
 	    
 	    // On récupère le controller et l'action de l'url
-	    if(strpos($this->_page, '/Error/') === false){
-		$this->_rewrittingUrlRepository = new RewrittingUrlRepository($this->_pdo, $this->_lang);
+	    if(!$this->_isInErrorPage){
+		$this->_rewrittingUrlRepository = $this->_repositoryManager->get('RewrittingUrl');
 		$this->_url = $this->_rewrittingUrlRepository->getByUrlMatched($this->_page);
 	    }
 	    else {
@@ -140,7 +146,7 @@
 	    $controllerTemp = isset($this->_routeUrl) ? $this->_routeUrl->getController() : "";
 	    // Si on est sur une page erreur OU si on a pas de module rewriting alors on récupère le controller et l'action via l'url directement
 	    // Sinon on récupère le controller et l'action via l'objet routeurl
-	    if(empty($controllerTemp) && (strpos($this->_page, '/Error/') !== false || (isset($this->_url['debug']) && $this->_url['debug'] == 'ok'))){
+	    if(empty($controllerTemp) && ($this->_isInErrorPage || (isset($this->_url['debug']) && $this->_url['debug'] == 'ok'))){
 		$c = $this->_url['controller'] . 'Controller';
 		$c2 = __controller_directory__ . '/' . $c . '.php';
 	    }
@@ -181,9 +187,9 @@
 	 * @return boolean
 	 */
 	public function ManageRouting(){
-	    if(strpos($this->_page, '/Error/') === false){
+	    if(!$this->_isInErrorPage){
 		// S'il n'y a aucune route en base matchant cette url, ou que l'url est '/'
-		$this->_routeUrlRepository = new RouteUrlRepository($this->_pdo, $this->_lang);
+		$this->_routeUrlRepository = $this->_repositoryManager->get('RouteUrl');
 		if(!isset($this->_url['controller']) || empty($this->_url['controller']) || ($this->_url["debug"] == "default" && $this->_page == '/')){
 		    // On récupère la route de la homepage et on en déduit l'objet rewritting
 		    $this->_routeUrl = $this->_routeUrlRepository->getByRouteName('Home');
@@ -208,7 +214,7 @@
 	public function ManageController(){
 	    // Si on est sur une page erreur ou si on a le module rewriting on récpère le nom du controller en brute
 	    // Sinon on le récupère via l'objet routeurl
-	    if(strpos($this->_page, '/Error/') !== false || ($this->_isValidUrl && $this->_routeUrl->getId() == 0))
+	    if($this->_isInErrorPage || ($this->_isValidUrl && $this->_routeUrl->getId() == 0))
 		$this->_controllerName = $this->_url['controller'] . "Controller";
 	    else
 		$this->_controllerName = $this->_routeUrl->getController() . 'Controller';
@@ -258,13 +264,13 @@
 	public function ManageAction(){
 	    // Si on est sur une page erreur ou si on a le module rewriting on récpère le nom de l'action en brute
 	    // Sinon on le récupère via l'objet routeurl
-	    if(strpos($this->_page, '/Error/') !== false || ($this->_isValidUrl && $this->_routeUrl->getId() == 0))
+	    if($this->_isInErrorPage || ($this->_isValidUrl && $this->_routeUrl->getId() == 0))
 		$this->_actionName = $this->_url['action'];
 	    else
 		$this->_actionName = $this->_routeUrl->getAction();
 	    
 	    // On instancie le controller
-	    $this->_controller = new $this->_controllerName($this->_pdo, $this->_lang, $this->_actionName);
+	    $this->_controller = new $this->_controllerName($this->_pdo, $this->_lang, $this->_actionName, $this->_repositoryManager);
 	    
 	    // On exécute l'action cible du controller et on affiche la vue avec le modèle renvoyé
 	    try{
@@ -334,6 +340,11 @@
 			    $file = __controller_directory__ . '/' . strtolower(trim(str_replace(array('\\', '_'), '/', $class), '/')) . '.php';
 			    if(file_exists($file))
 				require_once $file;
+			    else {
+				$file = __model_directory__ . '/' . strtolower(trim(str_replace(array('\\', '_'), '/', $class), '/')) . '.php';
+				if(file_exists($file))
+				    require_once $file;
+			    }
 			}
 		    }
 		}
@@ -346,7 +357,7 @@
 	 */
 	public function ManageModuleException(){
 	    // On ne lance les exceptions qu'en mode debug
-	    if($this->_isDebugMode && strpos($this->_page, '/Error/') !== 0){
+	    if($this->_isDebugMode && !$this->_isInErrorPage){
 		if(!$this->_pdo->TableExist("header")){
 		    throw new ConnexionException(ConnexionException::getNO_HEADER_TABLE_FOUND(), null);
 		}
@@ -385,6 +396,9 @@
 	}
 	public function getPage(){
 	    return $this->_page;
+	}
+	public function getIsInErrorPage(){
+	    return $this->_isInErrorPage;
 	}
 	
 	/***********

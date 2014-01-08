@@ -6,7 +6,7 @@
     $result = $App->ManageRouting();
     
     // On redirige si page par défaut
-    if(!$result && strpos($App->getPage(), '/Error/') === false){
+    if(!$result && $App->getIsInErrorPage()){
 	header('location:' . $App->getRewrittingUrl()->getUrlMatched());
 	die();
     }

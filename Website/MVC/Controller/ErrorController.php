@@ -6,7 +6,6 @@
     class ErrorController extends Controller {
 	public function __construct($pdo, $lang, $action) {
 	    parent::__construct($pdo, $lang, "error", $action);
-	    include(__model_directory__ . "/ErrorModel.php");
 	}
 	
 	/*************

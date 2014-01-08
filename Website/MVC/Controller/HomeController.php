@@ -4,9 +4,8 @@
 	Déscription : Permet de gérer les actions en relation avec le groupe de page Home
      */
     class HomeController extends Controller {
-	public function __construct($pdo, $lang, $action) {
-	    parent::__construct($pdo, $lang, "home", $action);
-	    include(__model_directory__ . "/HomeModel.php");
+	public function __construct($pdo, $lang, $action, $manager) {
+	    parent::__construct($pdo, $lang, "home", $action, $manager);
 	}
 	
 	public function Index(){

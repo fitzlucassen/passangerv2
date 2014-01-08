@@ -12,11 +12,11 @@
 	public $_params = array();
 	
 	public function __construct($pdo, $lang, $params = array()) {
-	    // Les configuration de base générale pour le site en BDD
 	    if(class_exists("HeaderRepository")){
 		$Header = HeaderRepository::getInstance($pdo, $lang);
 		$this->_headerInformations = $Header->getAll();
 	    }
+	    // Les configuration de base générale pour le site en BDD
 	    $this->_params = $params;
 	}
     }
