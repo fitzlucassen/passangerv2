@@ -12,14 +12,35 @@
 	    parent::__construct($controller);
 	}
 	
+	/**
+	 * CONNEXION
+	 */
 	public function noConnexionAvailable(){
 	    header('location: /Error/noConnexionAvailable');
 	}
 	
+	public function noHeaderTableFound(){
+	    header('location: /Error/noHeaderTableFound');
+	}
+	
+	public function noRewritingFound(){
+	    header('location: /Error/noRewritingFound');
+	}
+	
+	public function noMultilingueFound(){
+	    header('location: /Error/noMultilingueFound');
+	}
+	
+	/**
+	 * VIEW
+	 */
 	public function noModelProvided($params){
 	    header('location: /Error/noModelProvided/' . $params['controller'] . '/' . $params['action']);
 	}
 	
+	/**
+	 * CONTROLLER
+	 */
 	public function controllerClassDoesntExist($params){
 	    header('location: /Error/controllerClassDoesntExist/' . $params['file']);
 	}

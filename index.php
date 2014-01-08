@@ -6,8 +6,9 @@
     $result = $App->ManageRouting();
     
     // On redirige si page par défaut
-    if(!$result){
+    if(!$result && strpos($App->getPage(), '/Error/') === false){
 	header('location:' . $App->getRewrittingUrl()->getUrlMatched());
+	die();
     }
     // On vérifie que la page existe
     $App->Manage404Route();

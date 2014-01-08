@@ -1,21 +1,21 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >
-<meta name="Description" content="<?php echo $Model->_headerInformations->getMetaDescription(); ?>" >
-<meta name="Author" content="<?php echo $Model->_headerInformations->getTitle(); ?>">
+<meta name="Description" content="<?php echo isset($Model->_headerInformations) ? $Model->_headerInformations->getMetaDescription() : ""; ?>" >
+<meta name="Author" content="Thibault Dulon">
 
 <meta name="Revisit-after" content="15 days">
-<meta name="Publisher" content="">
+<meta name="Publisher" content="Thibault dulon">
 <meta name="Generator" content="PHP Engineer, HTML5/CSS3 Integrator">
 <meta name="Robots" content="index, follow, all">
 <meta name="Rating" content="general">
 <meta name="Language" content="fr">
 <meta name="Viewport" content="initial-scale=1.0">
 
-<meta property="og:title" content="<?php echo $Model->_headerInformations->getTitle(); ?>" />
+<meta property="og:title" content="<?php echo isset($Model->_headerInformations) ? $Model->_headerInformations->getTitle() : ""; ?>" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="<?php echo $_SERVER['SERVER_NAME'] . '/'; ?>" />
 <meta property="og:image" content="../favicon.ico" />
-<meta property="og:description" content="<?php echo $Model->_headerInformations->getMetaDescription(); ?>" />
+<meta property="og:description" content="<?php echo isset($Model->_headerInformations) ? $Model->_headerInformations->getMetaDescription() : ""; ?>" />
 
 <link rel="icon" type="images/png" href="../favicon.ico" />
 <!--[if IE]>

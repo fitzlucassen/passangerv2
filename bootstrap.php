@@ -33,5 +33,5 @@
     // End logger config
     
     $App = new App();
-    $App->setIsDebugMode(false);
+    $App->setIsDebugMode(true);
     $App->run();

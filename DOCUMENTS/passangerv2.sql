@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client: localhost
--- Généré le: Mar 26 Novembre 2013 à 16:05
+-- Généré le: Mer 08 Janvier 2014 à 08:06
 -- Version du serveur: 5.5.24-log
 -- Version de PHP: 5.3.13
 
@@ -126,6 +126,27 @@ INSERT INTO `history` (`id`, `title`, `description`, `lang`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `lang`
+--
+
+CREATE TABLE IF NOT EXISTS `lang` (
+  `id` tinyint(5) NOT NULL AUTO_INCREMENT,
+  `code` varchar(2) NOT NULL DEFAULT 'fr',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+
+--
+-- Contenu de la table `lang`
+--
+
+INSERT INTO `lang` (`id`, `code`) VALUES
+(1, 'fr'),
+(2, 'en'),
+(3, 'es');
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `link`
 --
 
@@ -202,18 +223,23 @@ INSERT INTO `news` (`id`, `title`, `description`, `date`, `lang`) VALUES
 
 CREATE TABLE IF NOT EXISTS `rewrittingurl` (
   `id` tinyint(5) NOT NULL AUTO_INCREMENT,
-  `idRoute` tinyint(5) NOT NULL,
+  `idRouteUrl` tinyint(5) NOT NULL,
   `urlMatched` varchar(255) NOT NULL,
   `lang` varchar(2) NOT NULL DEFAULT 'fr',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
 --
 -- Contenu de la table `rewrittingurl`
 --
 
-INSERT INTO `rewrittingurl` (`id`, `idRoute`, `urlMatched`, `lang`) VALUES
-(1, 1, 'accueil.html', 'fr');
+INSERT INTO `rewrittingurl` (`id`, `idRouteUrl`, `urlMatched`, `lang`) VALUES
+(1, 1, '/accueil.html', 'fr'),
+(2, 1, '/en/home.html', 'en'),
+(3, 2, '/404.html', 'fr'),
+(4, 2, '/en/404.html', 'en'),
+(5, 1, '/es/bienvenido.html', 'es'),
+(6, 2, '/es/404.html', 'es');
 
 -- --------------------------------------------------------
 
@@ -228,14 +254,15 @@ CREATE TABLE IF NOT EXISTS `routeurl` (
   `action` varchar(100) NOT NULL DEFAULT '',
   `order` tinyint(2) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
 -- Contenu de la table `routeurl`
 --
 
 INSERT INTO `routeurl` (`id`, `name`, `controller`, `action`, `order`) VALUES
-(1, 'home', 'home', 'index', 0);
+(1, 'home', 'home', 'index', 0),
+(2, 'error404', 'home', 'error404', 0);
 
 -- --------------------------------------------------------
 
@@ -250,62 +277,86 @@ CREATE TABLE IF NOT EXISTS `song` (
   `description` text,
   `duration` varchar(10) NOT NULL,
   `lang` varchar(2) NOT NULL,
-  PRIMARY KEY (`id`)
+  `idAlbum` tinyint(5) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idAlbum` (`idAlbum`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=49 ;
 
 --
 -- Contenu de la table `song`
 --
 
-INSERT INTO `song` (`id`, `filename`, `title`, `description`, `duration`, `lang`) VALUES
-(1, '', 'Intro', '', '01:45', 'fr'),
-(2, '', 'War is the key', '', '03:43', 'fr'),
-(3, '', 'Revenge', '', '04:10', 'fr'),
-(4, 'king.mp3', 'The King', '', '04:57', 'fr'),
-(5, '', 'Burn in hell', '', '04:12', 'fr'),
-(6, 'death.mp3', 'Death blows in my ears', '', '04:11', 'fr'),
-(7, '', 'Into the shadows', '', '04:47', 'fr'),
-(8, '', 'Never yourself', '', '04:33', 'fr'),
-(9, '', 'Hopess', '', '04:22', 'fr'),
-(10, 'power.mp3', 'Power of death', '', '04:14', 'fr'),
-(11, '', 'Ultimate Attempt', '', '04:36', 'fr'),
-(12, '', 'Conclusion', '', '02:08', 'fr'),
-(13, '', 'Intro', '', '01:45', 'en'),
-(14, '', 'War is the key', '', '03:43', 'en'),
-(15, '', 'Revenge', '', '04:10', 'en'),
-(16, 'king.mp3', 'The King', '', '04:57', 'en'),
-(17, '', 'Burn in hell', '', '04:12', 'en'),
-(18, 'death.mp3', 'Death blows in my ears', '', '04:11', 'en'),
-(19, '', 'Into the shadows', '', '04:47', 'en'),
-(20, '', 'Never yourself', '', '04:33', 'en'),
-(21, '', 'Hopess', '', '04:22', 'en'),
-(22, 'power.mp3', 'Power of death', '', '04:14', 'en'),
-(23, '', 'Ultimate Attempt', '', '04:36', 'en'),
-(24, '', 'Conclusion', '', '02:08', 'en'),
-(25, '', 'Ch.1 - A weird travel', '', '04:00', 'fr'),
-(26, '', 'Ch.2 - Survive after mourning', '', '05:50', 'fr'),
-(27, '', 'Ch.3 - Loneliness', '', '05:10', 'fr'),
-(28, '', 'Ch.4 - Kidnapping', '', '04:20', 'fr'),
-(29, '', 'Ch.5 - Dilemma', '', '05:20', 'fr'),
-(30, '', 'Ch.6 - The Leak', '', '03:45', 'fr'),
-(31, '', 'Ch.7 - Change your mind', '', '05:00', 'fr'),
-(32, '', 'Ch.8 - Nostalgia', '', '04:00', 'fr'),
-(33, '', 'Ch.9 - Revolution', '', '02:45', 'fr'),
-(34, '', 'Ch.10 - Revelation', '', '04:10', 'fr'),
-(35, '', 'Ch.11 - Partener till the end', '', '04:22', 'fr'),
-(36, '', 'Ch.12 - Somewhere else', '', '03:30', 'fr'),
-(37, '', 'Ch.1 - A weird travel', '', '04:00', 'en'),
-(38, '', 'Ch.2 - Survive after mourning', '', '05:50', 'en'),
-(39, '', 'Ch.3 - Loneliness', '', '05:10', 'en'),
-(40, '', 'Ch.4 - Kidnapping', '', '04:20', 'en'),
-(41, '', 'Ch.5 - Dilemma', '', '05:20', 'en'),
-(42, '', 'Ch.6 - The Leak', '', '03:45', 'en'),
-(43, '', 'Ch.7 - Change your mind', '', '05:00', 'en'),
-(44, '', 'Ch.8 - Nostalgia', '', '04:00', 'en'),
-(45, '', 'Ch.9 - Revolution', '', '02:45', 'en'),
-(46, '', 'Ch.10 - Revelation', '', '04:10', 'en'),
-(47, '', 'Ch.11 - Partener till the end', '', '04:22', 'en'),
-(48, '', 'Ch.12 - Somewhere else', '', '03:30', 'en');
+INSERT INTO `song` (`id`, `filename`, `title`, `description`, `duration`, `lang`, `idAlbum`) VALUES
+(1, '', 'Intro', '', '01:45', 'fr', 0),
+(2, '', 'War is the key', '', '03:43', 'fr', 0),
+(3, '', 'Revenge', '', '04:10', 'fr', 0),
+(4, 'king.mp3', 'The King', '', '04:57', 'fr', 0),
+(5, '', 'Burn in hell', '', '04:12', 'fr', 0),
+(6, 'death.mp3', 'Death blows in my ears', '', '04:11', 'fr', 0),
+(7, '', 'Into the shadows', '', '04:47', 'fr', 0),
+(8, '', 'Never yourself', '', '04:33', 'fr', 0),
+(9, '', 'Hopess', '', '04:22', 'fr', 0),
+(10, 'power.mp3', 'Power of death', '', '04:14', 'fr', 0),
+(11, '', 'Ultimate Attempt', '', '04:36', 'fr', 0),
+(12, '', 'Conclusion', '', '02:08', 'fr', 0),
+(13, '', 'Intro', '', '01:45', 'en', 0),
+(14, '', 'War is the key', '', '03:43', 'en', 0),
+(15, '', 'Revenge', '', '04:10', 'en', 0),
+(16, 'king.mp3', 'The King', '', '04:57', 'en', 0),
+(17, '', 'Burn in hell', '', '04:12', 'en', 0),
+(18, 'death.mp3', 'Death blows in my ears', '', '04:11', 'en', 0),
+(19, '', 'Into the shadows', '', '04:47', 'en', 0),
+(20, '', 'Never yourself', '', '04:33', 'en', 0),
+(21, '', 'Hopess', '', '04:22', 'en', 0),
+(22, 'power.mp3', 'Power of death', '', '04:14', 'en', 0),
+(23, '', 'Ultimate Attempt', '', '04:36', 'en', 0),
+(24, '', 'Conclusion', '', '02:08', 'en', 0),
+(25, '', 'Ch.1 - A weird travel', '', '04:00', 'fr', 0),
+(26, '', 'Ch.2 - Survive after mourning', '', '05:50', 'fr', 0),
+(27, '', 'Ch.3 - Loneliness', '', '05:10', 'fr', 0),
+(28, '', 'Ch.4 - Kidnapping', '', '04:20', 'fr', 0),
+(29, '', 'Ch.5 - Dilemma', '', '05:20', 'fr', 0),
+(30, '', 'Ch.6 - The Leak', '', '03:45', 'fr', 0),
+(31, '', 'Ch.7 - Change your mind', '', '05:00', 'fr', 0),
+(32, '', 'Ch.8 - Nostalgia', '', '04:00', 'fr', 0),
+(33, '', 'Ch.9 - Revolution', '', '02:45', 'fr', 0),
+(34, '', 'Ch.10 - Revelation', '', '04:10', 'fr', 0),
+(35, '', 'Ch.11 - Partener till the end', '', '04:22', 'fr', 0),
+(36, '', 'Ch.12 - Somewhere else', '', '03:30', 'fr', 0),
+(37, '', 'Ch.1 - A weird travel', '', '04:00', 'en', 0),
+(38, '', 'Ch.2 - Survive after mourning', '', '05:50', 'en', 0),
+(39, '', 'Ch.3 - Loneliness', '', '05:10', 'en', 0),
+(40, '', 'Ch.4 - Kidnapping', '', '04:20', 'en', 0),
+(41, '', 'Ch.5 - Dilemma', '', '05:20', 'en', 0),
+(42, '', 'Ch.6 - The Leak', '', '03:45', 'en', 0),
+(43, '', 'Ch.7 - Change your mind', '', '05:00', 'en', 0),
+(44, '', 'Ch.8 - Nostalgia', '', '04:00', 'en', 0),
+(45, '', 'Ch.9 - Revolution', '', '02:45', 'en', 0),
+(46, '', 'Ch.10 - Revelation', '', '04:10', 'en', 0),
+(47, '', 'Ch.11 - Partener till the end', '', '04:22', 'en', 0),
+(48, '', 'Ch.12 - Somewhere else', '', '03:30', 'en', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `user`
+--
+
+CREATE TABLE IF NOT EXISTS `user` (
+  `id` tinyint(5) NOT NULL AUTO_INCREMENT,
+  `login` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `role` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- Contenu de la table `user`
+--
+
+INSERT INTO `user` (`id`, `login`, `password`, `email`, `role`) VALUES
+(1, 'fitzlucassen', '63a9f0ea7bb98050796b649e85481845', 'thibault.dulon@gmail.com', 1);
 
 -- --------------------------------------------------------
 
@@ -314,12 +365,12 @@ INSERT INTO `song` (`id`, `filename`, `title`, `description`, `duration`, `lang`
 --
 
 CREATE TABLE IF NOT EXISTS `video` (
-  `id` smallint(5) NOT NULL AUTO_INCREMENT,
-  `url` longtext CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `title` varchar(250) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `description` mediumtext CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `thumb` varchar(250) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `lang` varchar(2) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `id` tinyint(5) NOT NULL AUTO_INCREMENT,
+  `url` text NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `description` text NOT NULL,
+  `thumb` varchar(255) NOT NULL,
+  `lang` varchar(2) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
 

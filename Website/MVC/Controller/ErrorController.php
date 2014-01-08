@@ -9,6 +9,9 @@
 	    include(__model_directory__ . "/ErrorModel.php");
 	}
 	
+	/*************
+	 * CONNEXION *
+	 *************/
 	public function noConnexionAvailable(){
 	    // Une action commencera toujours par l'initilisation de son modèle
 	    // Cette initialisation doit obligatoirement contenir la connexion PDO et la langue.
@@ -19,6 +22,27 @@
 	    $this->_view->ViewCompact($this->_controller, $this->_action, array('Model' => $Model));
 	}
 	
+	public function noHeaderTableFound(){
+	    $Model = new ErrorModel($this->_pdo, $this->_lang);
+	    
+	    $this->_view->ViewCompact($this->_controller, $this->_action, array('Model' => $Model));
+	}
+	
+	public function noRewritingFound(){
+	    $Model = new ErrorModel($this->_pdo, $this->_lang);
+	    
+	    $this->_view->ViewCompact($this->_controller, $this->_action, array('Model' => $Model));
+	}
+	
+	public function noMultilingueFound(){
+	    $Model = new ErrorModel($this->_pdo, $this->_lang);
+	    
+	    $this->_view->ViewCompact($this->_controller, $this->_action, array('Model' => $Model));
+	}
+	
+	/********
+	 * VIEW *
+	 ********/
 	public function noModelProvided($params){
 	    $Model = new ErrorModel($this->_pdo, $this->_lang, $params);
 	    
@@ -28,6 +52,9 @@
 	    $this->_view->ViewCompact($this->_controller, $this->_action, array('Model' => $Model));
 	}
 	
+	/**************
+	 * CONTROLLER *
+	 **************/
 	public function controllerClassDoesntExist($params){
 	    $Model = new ErrorModel($this->_pdo, $this->_lang, $params);
 	    

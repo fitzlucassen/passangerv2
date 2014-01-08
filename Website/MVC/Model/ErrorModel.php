@@ -8,6 +8,6 @@
 	public $_modelTarget = "";
 	
 	public function __construct($pdo, $lang, $params = array()) {
-	    parent::__construct($pdo, $lang, $params);
+	    /*parent::__construct($pdo, $lang, $params);*/
 	}
     }

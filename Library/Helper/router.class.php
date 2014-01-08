@@ -210,6 +210,14 @@
 	 * Getters *
 	 ***********/
 	/**
+	 * GetDefaultLanguage -> retourne la langue par défaut
+	 * @return type
+	 */
+	public static function GetDefaultLanguage(){
+	    return self::$_defaultLang;
+	}
+	
+	/**
 	 * GetRoutes -> retourne la collecion de route actuelle
 	 * @param type $key
 	 * @param string $lang

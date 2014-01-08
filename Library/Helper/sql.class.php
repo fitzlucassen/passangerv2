@@ -26,7 +26,7 @@
 	    } 
 	    catch(PDOException $e) { 
 		//On indique par email qu'on n'a plus de connection disponible 
-		throw new ConnexionException();
+		throw new ConnexionException(ConnexionException::getNO_DB_FOUND(), null);
 	    } 
 	}
 	
@@ -78,6 +78,18 @@
             // Output the exception details
             die('Uncaught exception: ' . $exception->getMessage());
         }
+	
+	public function TableExist($table){
+	    $all_tables = $this->SelectTable("SHOW TABLES FROM " . self::$_db);
+	    $found = false;
+
+	    foreach($all_tables as $thisTable){
+		$found = $thisTable['Tables_in_' . self::$_db] == $table;
+		if($found)
+		    break;
+	    }
+	    return $found;
+	}
 	
 	/***********
 	 * GETTERS *
