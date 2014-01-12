@@ -4,10 +4,15 @@
     font-family: "Segoe UI";
     src: url("../Font/Segoe UI.ttf");
 }
-@font-face
-{
-    font-family: "Hasteristico";
-    src: url("../Font/Hasteristico.ttf");
+@font-face {
+    font-family: 'hasteristicolight';
+    src: url('../Font/Hasteristico/hasteristico-webfont.eot');
+    src: url('../Font/Hasteristico/hasteristico-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../Font/Hasteristico/hasteristico-webfont.woff') format('woff'),
+         url('../Font/Hasteristico/hasteristico-webfont.ttf') format('truetype'),
+         url('../Font/Hasteristico/hasteristico-webfont.svg#hasteristicolight') format('svg');
+    font-weight: normal;
+    font-style: normal;
 }
 
 /* UTILITIES CLASSES */

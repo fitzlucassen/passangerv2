@@ -7,7 +7,7 @@
 	public $_controllerTarget = "";
 	public $_modelTarget = "";
 	
-	public function __construct($pdo, $lang, $params = array()) {
+	public function __construct($manager, $params = array()) {
 	    /*parent::__construct($pdo, $lang, $params);*/
 	}
     }

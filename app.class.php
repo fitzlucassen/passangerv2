@@ -85,8 +85,6 @@
 		    die();
 		}
 	    }
-	    
-	    
 	    $langInUrl = false;
 	    
 	    // On récupère les routes en base de données seulement si on est pas sur une page d'erreur
@@ -270,7 +268,7 @@
 		$this->_actionName = $this->_routeUrl->getAction();
 	    
 	    // On instancie le controller
-	    $this->_controller = new $this->_controllerName($this->_pdo, $this->_lang, $this->_actionName, $this->_repositoryManager);
+	    $this->_controller = new $this->_controllerName($this->_actionName, $this->_repositoryManager);
 	    
 	    // On exécute l'action cible du controller et on affiche la vue avec le modèle renvoyé
 	    try{

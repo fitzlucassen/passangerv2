@@ -14,4 +14,11 @@
 	    
 	    return $rep;
 	}
+	
+	public function getStatic($name){
+	    $repName = $name . 'Repository';
+	    $rep = $repName::getInstance($this->_pdo, $this->_lang);
+	    
+	    return $rep;
+	}
     }

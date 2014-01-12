@@ -10,6 +10,7 @@ class RouteUrlRepository {
     private $_pdo = null;
     private $_pdoHelper = null;
     private $_lang = null;
+    private $_queryBuilder = null;
 
     /**
      * Constructor 
@@ -21,6 +22,7 @@ class RouteUrlRepository {
 	$this->_pdo = $pdo->GetConnection();
 	$this->_pdoHelper = $pdo;
 	$this->_lang = $lang;
+	$this->_queryBuilder = new QueryBuilder(true);
     }
 
     /**
@@ -29,9 +31,10 @@ class RouteUrlRepository {
      * @return \RouteUrl
      */
     public function getByRouteName($route) {
-	$request = "SELECT *
-			FROM routeurl
-			WHERE name='" . htmlspecialchars($route) . "'";
+	$request = $this->_queryBuilder->select()
+					->from(array("routeurl"))
+					->where(array(array("link" => "", "left" => "name", "operator" => "=", "right" => "'" . $route . "'")))
+					->getQuery();
 	try {
 	    $resultat = $this->_pdoHelper->Select($request);
 
@@ -51,9 +54,11 @@ class RouteUrlRepository {
      * @return \RouteUrl
      */
     public function getByControllerAction($controller, $action) {
-	$request = "SELECT *
-			FROM routeurl
-			WHERE controller='" . htmlspecialchars($controller) . "' AND action='" . htmlspecialchars($action) . "'";
+	$request = $this->_queryBuilder->select()
+					->from(array("routeurl"))
+					->where(array(array("link" => "", "left" => "controller", "operator" => "=", "right" => "'" . $controller . "'"),
+							array("link" => "AND", "left" => "action", "operator" => "=", "right" => "'" . $action . "'")))
+					->getQuery();
 	try {
 	    $resultat = $this->_pdoHelper->Select($request);
 
@@ -72,9 +77,10 @@ class RouteUrlRepository {
      * @return \RouteUrl
      */
     public function getById($id) {
-	$request = "SELECT *
-			FROM routeurl
-			WHERE id=" . intval($id);
+	$request = $this->_queryBuilder->select()
+					->from(array("routeurl"))
+					->where(array(array("link" => "", "left" => "id", "operator" => "=", "right" => $id )))
+					->getQuery();
 	try {
 	    $resultat = $this->_pdoHelper->Select($request);
 
@@ -93,8 +99,8 @@ class RouteUrlRepository {
      * @return type
      */
     public static function getAll($Connexion) {
-	$request = "SELECT *
-			FROM routeurl";
+	$request = $this->_queryBuilder->select()
+					->from(array("routeurl"))->getQuery();
 	try {
 	    return $Connexion->SelectTable($request);
 	} catch (PDOException $e) {

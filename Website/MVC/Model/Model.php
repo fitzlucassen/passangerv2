@@ -11,9 +11,9 @@
 	public $_content = "";
 	public $_params = array();
 	
-	public function __construct($pdo, $lang, $params = array()) {
+	public function __construct($manager, $params = array()) {
 	    if(class_exists("HeaderRepository")){
-		$Header = HeaderRepository::getInstance($pdo, $lang);
+		$Header = $manager->getStatic('Header');
 		$this->_headerInformations = $Header->getAll();
 	    }
 	    // Les configuration de base générale pour le site en BDD
