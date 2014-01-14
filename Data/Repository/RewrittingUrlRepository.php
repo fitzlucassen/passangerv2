@@ -28,14 +28,14 @@ class RewrittingUrlRepository {
      * @param type $idRoute
      * @return \RewrittingUrl
      */
-    public function getByIdRoute($idRoute) {
+    public function getByIdRouteUrl($idRoute) {
 	$request = "SELECT *
 			FROM rewrittingurl
-			WHERE lang='" . $this->_lang . "' AND idRoute=" . intval($idRoute);
+			WHERE lang='" . $this->_lang . "' AND idRouteUrl=" . intval($idRoute);
 	try {
 	    $resultat = $this->_pdoHelper->Select($request);
 
-	    $RewrittingUrl = new RewrittingUrl($resultat["id"], $resultat["idRoute"], $resultat["urlMatched"], $resultat["lang"]);
+	    $RewrittingUrl = new RewrittingUrl($resultat["id"], $resultat["idRouteUrl"], $resultat["urlMatched"], $resultat["lang"]);
 
 	    return $RewrittingUrl;
 	} catch (PDOException $e) {
@@ -54,11 +54,11 @@ class RewrittingUrlRepository {
     public static function getByIdRouteStatic($idRoute, $lang, $Connexion) {
 	$request = "SELECT *
 			FROM rewrittingurl
-			WHERE lang='" . $lang . "' AND idRoute=" . intval($idRoute);
+			WHERE lang='" . $lang . "' AND idRouteUrl=" . intval($idRoute);
 	try {
 	    $resultat = $Connexion->Select($request);
 
-	    $RewrittingUrl = new RewrittingUrl($resultat["id"], $resultat["idRoute"], $resultat["urlMatched"], $resultat["lang"]);
+	    $RewrittingUrl = new RewrittingUrl($resultat["id"], $resultat["idRouteUrl"], $resultat["urlMatched"], $resultat["lang"]);
 
 	    return $RewrittingUrl;
 	} catch (PDOException $e) {
@@ -127,8 +127,8 @@ class RewrittingUrlRepository {
      * @return type
      */
     public function add($properties) {
-	$query = "INSERT INTO rewrittingurl('id', 'idRoute', 'urlMatched', 'lang')
-				VALUES(" . $properties["id"] . ", " . $properties["idRoute"] . ", '" . $properties["urlMatched"] . "', '" . $properties["lang"] . "')";
+	$query = "INSERT INTO rewrittingurl('id', 'idRouteUrl', 'urlMatched', 'lang')
+				VALUES(" . $properties["id"] . ", " . $properties["idRouteUrl"] . ", '" . $properties["urlMatched"] . "', '" . $properties["lang"] . "')";
 	try {
 	    return $this->_pdo->Query($query);
 	} catch (PDOException $e) {
@@ -145,7 +145,7 @@ class RewrittingUrlRepository {
      */
     public function update($id, $properties) {
 	$query = "UPDATE rewrittingurl 
-				SET id = " . $properties["id"] . ", idRoute = " . $properties["idRoute"] . ", urlMatched = '" . $properties["urlMatched"] . "', lang = '" . $properties["lang"] . "'
+				SET id = " . $properties["id"] . ", idRouteUrl = " . $properties["idRouteUrl"] . ", urlMatched = '" . $properties["urlMatched"] . "', lang = '" . $properties["lang"] . "'
 				WHERE id=" . $id;
 	try {
 	    return $this->_pdo->Query($query);

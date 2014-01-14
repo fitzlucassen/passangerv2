@@ -4,10 +4,15 @@
     font-family: "Segoe UI";
     src: url("../Font/Segoe UI.ttf");
 }
-@font-face
-{
-    font-family: "Hasteristico";
-    src: url("../Font/Hasteristico.ttf");
+@font-face {
+    font-family: 'hasteristicolight';
+    src: url('../Font/Hasteristico/hasteristico-webfont.eot');
+    src: url('../Font/Hasteristico/hasteristico-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../Font/Hasteristico/hasteristico-webfont.woff') format('woff'),
+         url('../Font/Hasteristico/hasteristico-webfont.ttf') format('truetype'),
+         url('../Font/Hasteristico/hasteristico-webfont.svg#hasteristicolight') format('svg');
+    font-weight: normal;
+    font-style: normal;
 }
 
 /* UTILITIES CLASSES */
@@ -21,55 +26,10 @@ html, body{
 #global{
     width: 100%;
     height: 100%;
+    overflow: hidden;
     background: transparent url(../../Media/Image/bg1.jpg) center center no-repeat;
     background-size: cover;
     background-attachment: fixed;
-    overflow: hidden;
-}
-.emptyCase{
-    opacity: 0.1;
-    background: #fff;
-    float: left;
-    border: 1px solid #000;
-    
-    box-shadow: 1px 1px 2px rgba(0,0,0,0.6);
-    -webkit-box-shadow: 1px 1px 2px rgba(0,0,0,0.6);
-    -moz-box-shadow: 1px 1px 2px rgba(0,0,0,0.6);
-    -o-box-shadow: 1px 1px 2px rgba(0,0,0,0.6);
-    -ms-box-shadow: 1px 1px 2px rgba(0,0,0,0.6);
-}
-
-.caseFull{
-    background: #000;
-    opacity: 0.8;
-    cursor: pointer;
-    font-family: 'Hasteristico';
-    text-align: center;
-   
-    transition: all 0.6s linear;
-    -webkit-transition: all 0.6s linear;
-    -moz-transition: all 0.6s linear;
-    -o-transition: all 0.6s linear;
-    -ms-transition: all 0.6s linear;
-}
-.caseFull h1, .caseFull h2{
-    font-size: 20px;
-    color: #fff;
-    
-    transition: all 0.6s linear;
-    -webkit-transition: all 0.6s linear;
-    -moz-transition: all 0.6s linear;
-    -o-transition: all 0.6s linear;
-    -ms-transition: all 0.6s linear;
-}
-.caseFull:hover{
-    background: #fff;
-}
-.caseFull:hover h2, .caseFull:hover h1{
-    color: #000;
-}
-
-header, #header{
 }
 
 .title{

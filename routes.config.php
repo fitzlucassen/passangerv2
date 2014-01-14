@@ -4,6 +4,8 @@
     define("__data_directory__", __host_absolute__ . "Data");
     define("__library_directory__", __host_absolute__ . "Library");
     define("__website_directory__", __host_absolute__ . "Website");
+    define("__log_directory__", __host_absolute__ . "Logs");
+    define("__cache_directory__", __host_absolute__ . "Cache");
     
     define("__helper_directory__", __library_directory__ . "/" . "Helper");
     define("__component_directory__", __library_directory__ . "/" . "Adapter");

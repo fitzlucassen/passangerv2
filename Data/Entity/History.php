@@ -10,7 +10,7 @@
 		private $_description;
 		private $_lang;
 
-		public function __construct($id = "", $title = "", $description = "", $lang = ""){
+		public function __construct($id, $title, $description, $lang){
 			$this->fillObject(array("id" => $id, "title" => $title, "description" => $description, "lang" => $lang));
 		}
 
@@ -34,14 +34,10 @@
 		 *******/
 
 		public function fillObject($properties) {
-			if(!empty($properties["id"]))
-				$this->_id = $properties["id"];
-			if(!empty($properties["title"]))
-				$this->_title = $properties["title"];
-			if(!empty($properties["description"]))
-				$this->_description = $properties["description"];
-			if(!empty($properties["lang"]))
-				$this->_lang = $properties["lang"];
+			$this->_id = $properties["id"];
+			$this->_title = $properties["title"];
+			$this->_description = $properties["description"];
+			$this->_lang = $properties["lang"];
 		}
 	}
 ?>

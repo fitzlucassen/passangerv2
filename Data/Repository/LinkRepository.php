@@ -28,17 +28,6 @@
 			}
 			return array();
 		}
-		
-		public function getAllByLang($lang){
-			$query = "SELECT * FROM link WHERE lang = '" . $lang . "'";
-			try {
-				return $this->_pdoHelper->SelectTable($query);
-			}
-			catch(PDOException $e){
-				print $e->getMessage();
-			}
-			return array();
-		}
 
 		public function getById($id){
 			$query = "SELECT * FROM link WHERE id=" . $id;
@@ -66,8 +55,8 @@
 		}
 
 		public function add($properties) {
-			$query = "INSERT INTO link('id', 'title', 'lang')
-				VALUES(" . $properties["id"] . ", '" . $properties["title"] . "', '" . $properties["lang"] . "')";
+			$query = "INSERT INTO link('id', 'title', 'href', 'lang')
+				VALUES(" . $properties["id"] . ", '" . $properties["title"] . "', '" . $properties["href"] . "', '" . $properties["lang"] . "')";
 			try {
 				return $this->_pdo->Query($query);
 			}
@@ -79,7 +68,7 @@
 
 		public function update($id, $properties) {
 			$query = "UPDATE link 
-				SET id = " . $properties["id"] . ", title = '" . $properties["title"] . "', lang = '" . $properties["lang"] . "'
+				SET id = " . $properties["id"] . ", title = '" . $properties["title"] . "', href = '" . $properties["href"] . "', lang = '" . $properties["lang"] . "'
 				WHERE id=" . $id;
 			try {
 				return $this->_pdo->Query($query);

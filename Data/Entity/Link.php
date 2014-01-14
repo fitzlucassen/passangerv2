@@ -7,10 +7,11 @@
 	class Link {
 		private $_id;
 		private $_title;
+		private $_href;
 		private $_lang;
 
-		public function __construct($id = "", $title = "", $lang = ""){
-			$this->fillObject(array("id" => $id, "title" => $title, "lang" => $lang));
+		public function __construct($id, $title, $href, $lang){
+			$this->fillObject(array("id" => $id, "title" => $title, "href" => $href, "lang" => $lang));
 		}
 
 		/***********
@@ -22,6 +23,9 @@
 		public function getTitle() {
 			return $this->_title;
 		}
+		public function getHref() {
+			return $this->_href;
+		}
 		public function getLang() {
 			return $this->_lang;
 		}
@@ -30,12 +34,10 @@
 		 *******/
 
 		public function fillObject($properties) {
-			if(!empty($properties["id"]))
-				$this->_id = $properties["id"];
-			if(!empty($properties["title"]))
-				$this->_title = $properties["title"];
-			if(!empty($properties["lang"]))
-				$this->_lang = $properties["lang"];
+			$this->_id = $properties["id"];
+			$this->_title = $properties["title"];
+			$this->_href = $properties["href"];
+			$this->_lang = $properties["lang"];
 		}
 	}
 ?>

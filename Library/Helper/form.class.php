@@ -42,71 +42,111 @@
 	}
 	
 	/**
-	 * CreateForm -> créée un formulaire complet contenant les champs passés en paramètres
-	 * @param type $fields -> sous la forme : array('name' => array('wording', 'type', 'class', 'value', 'placeholder', 'rows', 'cols', 'options')) (tous les paramètres ne sont pas obligatoire)
-	 * @param type $withLabel -> si on veut afficher les labels à côté des champs ou pas
-	 * @param type $withBr -> si on doit sauter une ligne entre chaque champ
-	 * @param type $action -> l'action vers laquelle rediriger lors de la validation du formulaire
-	 * @param type $method -> la méthode par laquelle passer les paramètres
-	 * @param type $enctype -> l'encodage pour les médias
-	 * @return string -> le formulaire
+	 * Open -> open a new html form
+	 * @param string $action
+	 * @param string $method
+	 * @param string $enctype
+	 * @return string -> the html
 	 */
-	/*
-	 * EXEMPLE :
-	 * echo $FormHelper->CreateForm(array( 'name' => array('wording' => 'Nom', 'type' => 'varchar', 'options' => 'required', 'placeholder' => 'votre nom'),
-					    'surname' => array('wording' => 'Prénom', 'type' => 'varchar', 'options' => 'required', 'placeholder' => 'votre prénom'),
-					    'email' => array('wording' => 'E-mail', 'type' => 'email', 'options' => 'required', 'placeholder' => 'votre e-mail'),
-					    'message' => array('wording' => 'Message', 'type' => 'text', 'options' => 'required', 'placeholder' => 'votre message', 'rows' => 10, 'cols' => 10)), true)
+	public static function Open($action = "", $method = "post", $enctype = ""){
+	    $form = '';
+	    $form = '<form action="' . $action . '" method="' . $method . '" enctype="' . $enctype . '">';
+	    return $form;
+	}
+	
+	/**
+	 * Close -> close a html form
+	 * @return string
 	 */
-	public function CreateForm($fields, $withLabel = true, $withBr = true, $action = "", $method = "post", $enctype = "multipart/form-data"){
+	public static function Close(){
+	    return '</form>';
+	}
+	
+	/**
+	 * Input -> return the html of a input element
+	 * @param string $type
+	 * @param string $name
+	 * @param string $value
+	 * @param string $label -> false if we don't want any label. The wording if we want a label
+	 * @param booleen $withBr -> if we want a carriage return after the label
+	 * @param array $params -> all other params
+	 * @param booleen $required
+	 * @return string -> the html
+	 */
+	public static function Input($type, $name, $value = "", $label = false, $withBr = true, $params = array(), $required = false){
 	    $form = "";
-	    $form .= '<form action="' . $action . '" method="' . $method . '" enctype="' . $enctype . '">';
-	    
-	    foreach($fields as $key => $value){
-		if($withLabel){
-		    $form .= '<label class="label" for="' . $key . 'Field">' . $value['wording'] . '</label>';
-		}
-		
-		if(!isset($value['value'])){
-		    $value['value'] = "";
-		}
-		if(!isset($value['class'])){
-		    $value['class'] = "";
-		}
-		
-		if(in_array($value['type'], array('varchar', 'number'))){
-		    $form .= '<input type="text" value="' . $value['value'] . '" name="' . $key . '" class="' . $value['class'] . '" id="' . $key . 'Field" ' . $value['options'] . ' placeholder="' . $value['placeholder'] . '" />';
-		}
-		else if($value['type'] == 'text'){
-		    $form .= '<textarea rows="' . $value['rows'] . '" cols="' . $value['cols'] . '" name="' . $key . '" class="' . $value['class'] . '" id="' . $key . 'Field" ' . $value['options'] . ' placeholder="' . $value['placeholder'] . '">' . $value['value'] . '</textarea>';
-		}
-		else if($value['type'] == 'multivalue'){
-		    $form .= '<select name="' . $key . '" class="' . $value['class'] . '" id="' . $key . 'Field" ' . $value['options'] . '>';
-		    
-		    foreach($value as $thisValueKey => $thisValueValue){
-			$form .= '<option value="' . $thisValueValue . '">' . $thisValueKey . '</option>';
-		    }
-		    
-		    $form .= '</select>';
-		}
-		else if($value['type'] == 'password'){
-		    $form .= '<input type="password" value="' . $value['value'] . '" name="' . $key . '" class="' . $value['class'] . '" id="' . $key . 'Field" ' . $value['options'] . ' placeholder="' . $value['placeholder'] . '" />';
-		}
-		else if($value['type'] == 'image'){
-		    $form .= '<input type="file" value="' . $value['value'] . '" name="' . $key . '" class="' . $value['class'] . '" id="' . $key . 'Field" ' . $value['options'] . ' placeholder="' . $value['placeholder'] . '" />';
-		}
-		else {
-		    $form .= '<input type="' . $value['type'] . '" value="' . $value['value'] . '" name="' . $key . '" class="' . $value['class'] . '" id="' . $key . 'Field" ' . $value['options'] . ' placeholder="' . $value['placeholder'] . '" />';
-		}
-		
-		if($withBr){
+	    if($label){
+		$form .= '<label class="label" for="' . $name . 'Field">' . $label . '</label>';
+		if($withBr)
 		    $form .= '<br/>';
-		}
+	    }
+	    $form .= '<input type="' . $type . '" name="' . $name . '" id="' . $name . 'Field" ';
+	    
+	    foreach($params as $key => $val){
+		$form .= $key . '="' . $val . '" ';
+	    }
+	    $form .= 'value="' . $value . '" ' . ($required ? 'required' : '') . ' />';
+	    
+	    return $form;
+	}
+	
+	/**
+	 * Textarea -> return the html of a textarea element
+	 * @param string $name
+	 * @param string $value
+	 * @param string $label -> false if we don't want any label. The wording if we want a label
+	 * @param booleen $withBr -> if we want a carriage return after the label
+	 * @param array $params -> all other params
+	 * @param booleen $required
+	 * @return string -> the html
+	 */
+	public static function Textarea($name, $value = "", $label = false, $withBr = true, $params = array(), $required = false){
+	    $form = "";
+	    if($label){
+		$form .= '<label class="label" for="' . $name . 'Field">' . $label . '</label>';
+		if($withBr)
+		    $form .= '<br/>';
+	    }
+	    $form .= '<textarea name="' . $name . '" id="' . $name . 'Field" ';
+	    
+	    foreach($params as $key => $val){
+		$form .= $key . '="' . $val . '" ';
+	    }
+	    $form .= ($required ? 'required' : '') . ' >' . $value . '</textarea>';
+	    
+	    return $form;
+	}
+	
+	/**
+	 * Select -> return the html of a select element
+	 * @param string $name
+	 * @param array $value
+	 * @param string $label -> false if we don't want any label. The wording if we want a label
+	 * @param booleen $withBr -> if we want a carriage return after the label
+	 * @param array $params -> all other params
+	 * @param booleen $required
+	 * @return string -> the html
+	 */
+	public static function Select($name, $value = "", $label = false, $withBr = true, $params = array(), $required = false){
+	    $form = "";
+	    if($label){
+		$form .= '<label class="label" for="' . $name . 'Field">' . $label . '</label>';
+		if($withBr)
+		    $form .= '<br/>';
+	    }
+	    $form .= '<select name="' . $name . '" id="' . $name . 'Field" ';
+	    
+	    foreach($params as $key => $val){
+		$form .= $key . '="' . $val . '" ';
+	    }
+	    $form .= ($required ? 'required' : '') . ' >';
+	    
+	    foreach($value as $thisValueKey => $thisValueValue){
+		$form .= '<option value="' . $thisValueValue . '">' . $thisValueKey . '</option>';
 	    }
 	    
-	    $form .= '<input type="submit" name="submitBtn" class="submitBtn" />';
+	    $form .= '</select>';
 	    
-	    $form .= '</form>';
 	    return $form;
 	}
     }

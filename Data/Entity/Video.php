@@ -12,7 +12,7 @@
 		private $_thumb;
 		private $_lang;
 
-		public function __construct($id = "", $url = "", $title = "", $description = "", $thumb = "", $lang = ""){
+		public function __construct($id, $url, $title, $description, $thumb, $lang){
 			$this->fillObject(array("id" => $id, "url" => $url, "title" => $title, "description" => $description, "thumb" => $thumb, "lang" => $lang));
 		}
 
@@ -42,18 +42,12 @@
 		 *******/
 
 		public function fillObject($properties) {
-			if(!empty($properties["id"]))
-				$this->_id = $properties["id"];
-			if(!empty($properties["url"]))
-				$this->_url = $properties["url"];
-			if(!empty($properties["title"]))
-				$this->_title = $properties["title"];
-			if(!empty($properties["description"]))
-				$this->_description = $properties["description"];
-			if(!empty($properties["thumb"]))
-				$this->_thumb = $properties["thumb"];
-			if(!empty($properties["lang"]))
-				$this->_lang = $properties["lang"];
+			$this->_id = $properties["id"];
+			$this->_url = $properties["url"];
+			$this->_title = $properties["title"];
+			$this->_description = $properties["description"];
+			$this->_thumb = $properties["thumb"];
+			$this->_lang = $properties["lang"];
 		}
 	}
 ?>

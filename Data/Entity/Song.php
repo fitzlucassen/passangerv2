@@ -14,7 +14,7 @@
 		private $_album;
 		private $_idAlbum;
 
-		public function __construct($id = "", $filename = "", $title = "", $description = "", $duration = "", $lang = "", $idAlbum = ""){
+		public function __construct($id, $filename, $title, $description, $duration, $lang, $idAlbum){
 			$this->fillObject(array("id" => $id, "filename" => $filename, "title" => $title, "description" => $description, "duration" => $duration, "lang" => $lang, "idAlbum" => $idAlbum));
 		}
 
@@ -58,20 +58,13 @@
 		 *******/
 
 		public function fillObject($properties) {
-			if(!empty($properties["id"]))
-				$this->_id = $properties["id"];
-			if(!empty($properties["filename"]))
-				$this->_filename = $properties["filename"];
-			if(!empty($properties["title"]))
-				$this->_title = $properties["title"];
-			if(!empty($properties["description"]))
-				$this->_description = $properties["description"];
-			if(!empty($properties["duration"]))
-				$this->_duration = $properties["duration"];
-			if(!empty($properties["lang"]))
-				$this->_lang = $properties["lang"];
-			if(!empty($properties["idAlbum"]))
-				$this->_idAlbum = $properties["idAlbum"];
+			$this->_id = $properties["id"];
+			$this->_filename = $properties["filename"];
+			$this->_title = $properties["title"];
+			$this->_description = $properties["description"];
+			$this->_duration = $properties["duration"];
+			$this->_lang = $properties["lang"];
+			$this->_idAlbum = $properties["idAlbum"];
 		}
 	}
 ?>
