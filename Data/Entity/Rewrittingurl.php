@@ -11,7 +11,7 @@
 		private $_urlMatched;
 		private $_lang;
 
-		public function __construct($id, $idRouteUrl, $urlMatched, $lang){
+		public function __construct($id = "", $idRouteUrl = "", $urlMatched = "", $lang = ""){
 			$this->fillObject(array("id" => $id, "idRouteUrl" => $idRouteUrl, "urlMatched" => $urlMatched, "lang" => $lang));
 		}
 
@@ -46,10 +46,14 @@
 		 *******/
 
 		public function fillObject($properties) {
-			$this->_id = $properties["id"];
-			$this->_idRouteUrl = $properties["idRouteUrl"];
-			$this->_urlMatched = $properties["urlMatched"];
-			$this->_lang = $properties["lang"];
+			if(!empty($properties["id"]))
+				$this->_id = $properties["id"];
+			if(!empty($properties["idRouteUrl"]))
+				$this->_idRouteUrl = $properties["idRouteUrl"];
+			if(!empty($properties["urlMatched"]))
+				$this->_urlMatched = $properties["urlMatched"];
+			if(!empty($properties["lang"]))
+				$this->_lang = $properties["lang"];
 		}
 	}
 ?>

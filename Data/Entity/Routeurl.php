@@ -12,7 +12,7 @@
 		private $_order;
 		private $_rewrittingurls;
 
-		public function __construct($id, $name, $controller, $action, $order){
+		public function __construct($id = "", $name = "", $controller = "", $action = "", $order = ""){
 			$this->fillObject(array("id" => $id, "name" => $name, "controller" => $controller, "action" => $action, "order" => $order));
 		}
 
@@ -50,11 +50,16 @@
 		 *******/
 
 		public function fillObject($properties) {
-			$this->_id = $properties["id"];
-			$this->_name = $properties["name"];
-			$this->_controller = $properties["controller"];
-			$this->_action = $properties["action"];
-			$this->_order = $properties["order"];
+			if(!empty($properties["id"]))
+				$this->_id = $properties["id"];
+			if(!empty($properties["name"]))
+				$this->_name = $properties["name"];
+			if(!empty($properties["controller"]))
+				$this->_controller = $properties["controller"];
+			if(!empty($properties["action"]))
+				$this->_action = $properties["action"];
+			if(!empty($properties["order"]))
+				$this->_order = $properties["order"];
 		}
 	}
 ?>

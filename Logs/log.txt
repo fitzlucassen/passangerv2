@@ -10,3 +10,4 @@
 11-01-14 13:54:22 --> Redirection vers la page 404 sur l'url : /ZEFZHEOH
 11-01-14 13:54:22 --> no action : actionDoesntExist Home Website
 11-01-14 13:54:22 --> Redirection vers la page 404 sur l'url : /favicon.ico
+14-01-14 21:20:12 --> Redirection vers la page 404 sur l'url : /favicon.ico
