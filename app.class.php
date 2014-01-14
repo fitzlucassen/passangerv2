@@ -11,6 +11,7 @@
 	private $_controllerName = "";
 	private $_actionName = "";
 	private $_controller = null;
+	private $_isBrutUrl = false;
 	
 	public function __construct($pdo, $lang, $page) {
 	    $this->_page = $page;
@@ -25,8 +26,19 @@
 	 * Manage404Route -> gère le routing vers la page 404 si la page n'existe pas
 	 */
 	public function Manage404Route(){
+	    $wrongRoute = $this->_routeUrl->getId() == 0 || ($this->_url["debug"] == "default" && $this->_page != '/');
+	    
+	    if($wrongRoute){
+		// On vérifie que le fichier de la classe de ce controller existe bien
+		$controllerFile = __controller_directory__ . '/' . $this->_url["controller"] . 'Controller.php';
+		if(file_exists($controllerFile))
+		    include __controller_directory__ . '/' . $this->_url["controller"] . 'Controller.php';
+	    
+		$actionExist = class_exists($this->_url["controller"] . 'Controller') && method_exists($this->_url["controller"] . 'Controller', $this->_url["action"]);
+		$this->_isBrutUrl = $actionExist;
+	    }
 	    // Si l'url n'existe pas on redirige vers la page 404
-	    if($this->_routeUrl->getId() == 0 || ($this->_url["debug"] == "default" && $this->_page != '/')){
+	    if(!$this->_isBrutUrl && $wrongRoute){
 		$this->_routeUrl = $this->_routeUrlRepository->getByRouteName('error404');
 		$this->_rewrittingUrl = $this->_rewrittingUrlRepository->getByIdRoute($this->_routeUrl->getId());
 
@@ -61,7 +73,10 @@
 	 * ManageController -> set le nom du controller
 	 */
 	public function ManageController(){
-	    $this->_controllerName = $this->_routeUrl->getController() . 'Controller';
+	    if($this->_isBrutUrl)
+		$this->_controllerName = ucwords($this->_url['controller']) . 'Controller';
+	    else
+		$this->_controllerName = ucwords($this->_routeUrl->getController()) . 'Controller';
 	}
 	
 	/**
@@ -69,7 +84,11 @@
 	 */
 	public function ManageAction(){
 	    // On instancie le controller
-	    $this->_actionName = $this->_routeUrl->getAction();
+	    if($this->_isBrutUrl)
+		$this->_actionName = ucwords($this->_url['action']);
+	    else
+		$this->_actionName = $this->_routeUrl->getAction();
+	    
 	    $this->_controller = new $this->_controllerName($this->_pdo, $this->_lang, $this->_actionName);
 	}
 	
@@ -104,5 +123,8 @@
 	}
 	public function getActionName(){
 	    return $this->_actionName;
+	}
+	public function isBrutUrl(){
+	    return $this->_isBrutUrl;
 	}
     }

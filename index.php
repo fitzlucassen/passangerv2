@@ -4,7 +4,6 @@
     
     // On crée la class principale APP.
     $App = new App($Connexion, $Session->read('lang'), $page);
-    
     // On initialise le routing de base
     $result = $App->ManageRouting();
     
@@ -22,10 +21,11 @@
 	$controllerFile = __controller_directory__ . '/' . $App->getControllerName() . '.php';
 	if(!file_exists($controllerFile))
 	    throw new ControllerException(ControllerException::NOT_FOUND);
-	
-	// On include le fichier de cette classe controller correspondant à la page souhaitée
-	include __controller_directory__ . '/' . $App->getControllerName() . '.php';
 
+	if(!$App->isBrutUrl()){
+	    include __controller_directory__ . '/' . $App->getControllerName() . '.php';
+	}
+	
 	// On vérifie que la classe existe bien
 	if(!class_exists($App->getControllerName()))
 	    throw new ControllerException(ControllerException::INSTANCE_FAIL);
@@ -44,7 +44,6 @@
     
     // On instancie le controller cible et on créée l'action
     $App->ManageAction();
-    
     // On exécute l'action cible du controller et on affiche la vue avec le modèle renvoyé
     try{
 	$App->ExecuteAction();

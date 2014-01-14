@@ -26,8 +26,12 @@ Partial --> Contient toutes les vues partielles
     Pas de contrainte ici
 
 Repository --> Pour chaque entité en base de données, il y a un repository.
-    Commence par une majuscule suffixé de ".class".
-    Fais office d'entity comme de repository (fais office d'objet image d'une table en BDD, mais contient aussi toutes les fonctions d'exploitation).
+    Commence par une majuscule suffixé de "Repository".
+    Fais office de repository (contient toutes les fonctions d'exploitation).
+
+Entity -> Pour chaque entité en base de données il y a une Entity.
+    Commence par une majuscule.
+    Fais office d'entity (objet image d'une table en BDD)
 
 .htaccess renvoie toujorus vers l'index et on gère l'url rewritting grâce au helper "router.class.php"
 

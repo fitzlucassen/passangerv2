@@ -23,4 +23,13 @@
 	    $Model = new HomeModel($this->_pdo, $this->_lang);
 	    $this->_view->ViewCompact($this->_controller, $this->_action, array('Model' => $Model));
 	}
+	
+	public function Menu(){
+	    $Session = new Session("");
+	    $LinkRepository = new LinkRepository($this->_pdo, $this->_lang);
+	    
+	    $menu = $LinkRepository->getAllByLang($Session->read('lang'));
+	    header('Content-type: application/json');
+	    echo json_encode($menu);
+	}
     }
