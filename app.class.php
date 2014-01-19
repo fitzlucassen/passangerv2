@@ -193,7 +193,8 @@
 		    $this->_routeUrl = $this->_routeUrlRepository->getByRouteName('Home');
 		    $this->_rewrittingUrl = $this->_rewrittingUrlRepository->getByIdRouteUrl($this->_routeUrl->getId());
 
-		    return false;
+		    header('location: ' . $this->_rewrittingUrl->getUrlMatched());
+		    die();
 		}
 		// Sinon on récupère la route grâce à l'url rewritté
 		else {
