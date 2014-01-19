@@ -31,7 +31,7 @@
 		    $string .= ' ';
 	    }
 	    
-	    $this->_query .= $string;
+	    $this->_query = $string;
 	    return $this->_returnObject ? $this : $string;
 	}
 	
