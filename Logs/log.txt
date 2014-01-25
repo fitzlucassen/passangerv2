@@ -1,6 +1,5 @@
-19-01-14 23:40:44 --> Redirection vers la page 404 sur l'url : /favicon.ico
-19-01-14 23:44:06 --> Redirection vers la page 404 sur l'url : /favicon.ico
-19-01-14 23:44:06 --> Redirection vers la page 404 sur l'url : /favicon.ico
-19-01-14 23:44:10 --> Redirection vers la page 404 sur l'url : /favicon.ico
-19-01-14 23:44:15 --> Redirection vers la page 404 sur l'url : /favicon.ico
-19-01-14 23:59:44 --> Redirection vers la page 404 sur l'url : /favicon.ico
+25-01-14 23:22:56 --> no header : noHeaderTableFound 
+25-01-14 23:22:56 --> no header : noHeaderTableFound 
+25-01-14 23:24:47 --> no header : noHeaderTableFound 
+25-01-14 23:27:53 --> no header : noHeaderTableFound 
+25-01-14 23:27:53 --> no header : noHeaderTableFound 
