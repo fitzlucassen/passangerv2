@@ -4,13 +4,19 @@
 	 * All right reserved to fitzlucassen repository on github*
 	 ************* https://github.com/fitzlucassen ************
 	 **********************************************************/
+	namespace fitzlucassen\FLFramework\Data\Entity;
+
+	use fitzlucassen\FLFramework\Library\Core as cores;
+
 	class Link {
 		private $_id;
 		private $_title;
 		private $_href;
 		private $_lang;
+		private $_queryBuilder;
 
-		public function __construct($id, $title, $href, $lang){
+		public function __construct($id = "", $title = "", $href = "", $lang = ""){
+			$this->_queryBuilder = new cores\QueryBuilder(true);
 			$this->fillObject(array("id" => $id, "title" => $title, "href" => $href, "lang" => $lang));
 		}
 
@@ -34,10 +40,13 @@
 		 *******/
 
 		public function fillObject($properties) {
-			$this->_id = $properties["id"];
-			$this->_title = $properties["title"];
-			$this->_href = $properties["href"];
-			$this->_lang = $properties["lang"];
+			if(!empty($properties["id"]))
+				$this->_id = $properties["id"];
+			if(!empty($properties["title"]))
+				$this->_title = $properties["title"];
+			if(!empty($properties["href"]))
+				$this->_href = $properties["href"];
+			if(!empty($properties["lang"]))
+				$this->_lang = $properties["lang"];
 		}
 	}
-?>

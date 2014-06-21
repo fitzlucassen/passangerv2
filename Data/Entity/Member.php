@@ -4,6 +4,10 @@
 	 * All right reserved to fitzlucassen repository on github*
 	 ************* https://github.com/fitzlucassen ************
 	 **********************************************************/
+	namespace fitzlucassen\FLFramework\Data\Entity;
+
+	use fitzlucassen\FLFramework\Library\Core as cores;
+
 	class Member {
 		private $_id;
 		private $_name;
@@ -15,8 +19,10 @@
 		private $_influences;
 		private $_description;
 		private $_lang;
+		private $_queryBuilder;
 
-		public function __construct($id, $name, $firstname, $surname, $picture, $birthday, $instrument, $influences, $description, $lang){
+		public function __construct($id = "", $name = "", $firstname = "", $surname = "", $picture = "", $birthday = "", $instrument = "", $influences = "", $description = "", $lang = ""){
+			$this->_queryBuilder = new cores\QueryBuilder(true);
 			$this->fillObject(array("id" => $id, "name" => $name, "firstname" => $firstname, "surname" => $surname, "picture" => $picture, "birthday" => $birthday, "instrument" => $instrument, "influences" => $influences, "description" => $description, "lang" => $lang));
 		}
 
@@ -58,16 +64,25 @@
 		 *******/
 
 		public function fillObject($properties) {
-			$this->_id = $properties["id"];
-			$this->_name = $properties["name"];
-			$this->_firstname = $properties["firstname"];
-			$this->_surname = $properties["surname"];
-			$this->_picture = $properties["picture"];
-			$this->_birthday = $properties["birthday"];
-			$this->_instrument = $properties["instrument"];
-			$this->_influences = $properties["influences"];
-			$this->_description = $properties["description"];
-			$this->_lang = $properties["lang"];
+			if(!empty($properties["id"]))
+				$this->_id = $properties["id"];
+			if(!empty($properties["name"]))
+				$this->_name = $properties["name"];
+			if(!empty($properties["firstname"]))
+				$this->_firstname = $properties["firstname"];
+			if(!empty($properties["surname"]))
+				$this->_surname = $properties["surname"];
+			if(!empty($properties["picture"]))
+				$this->_picture = $properties["picture"];
+			if(!empty($properties["birthday"]))
+				$this->_birthday = $properties["birthday"];
+			if(!empty($properties["instrument"]))
+				$this->_instrument = $properties["instrument"];
+			if(!empty($properties["influences"]))
+				$this->_influences = $properties["influences"];
+			if(!empty($properties["description"]))
+				$this->_description = $properties["description"];
+			if(!empty($properties["lang"]))
+				$this->_lang = $properties["lang"];
 		}
 	}
-?>

@@ -4,6 +4,10 @@
 	 * All right reserved to fitzlucassen repository on github*
 	 ************* https://github.com/fitzlucassen ************
 	 **********************************************************/
+	namespace fitzlucassen\FLFramework\Data\Entity;
+
+	use fitzlucassen\FLFramework\Library\Core as cores;
+
 	class Video {
 		private $_id;
 		private $_url;
@@ -11,8 +15,10 @@
 		private $_description;
 		private $_thumb;
 		private $_lang;
+		private $_queryBuilder;
 
-		public function __construct($id, $url, $title, $description, $thumb, $lang){
+		public function __construct($id = "", $url = "", $title = "", $description = "", $thumb = "", $lang = ""){
+			$this->_queryBuilder = new cores\QueryBuilder(true);
 			$this->fillObject(array("id" => $id, "url" => $url, "title" => $title, "description" => $description, "thumb" => $thumb, "lang" => $lang));
 		}
 
@@ -42,12 +48,17 @@
 		 *******/
 
 		public function fillObject($properties) {
-			$this->_id = $properties["id"];
-			$this->_url = $properties["url"];
-			$this->_title = $properties["title"];
-			$this->_description = $properties["description"];
-			$this->_thumb = $properties["thumb"];
-			$this->_lang = $properties["lang"];
+			if(!empty($properties["id"]))
+				$this->_id = $properties["id"];
+			if(!empty($properties["url"]))
+				$this->_url = $properties["url"];
+			if(!empty($properties["title"]))
+				$this->_title = $properties["title"];
+			if(!empty($properties["description"]))
+				$this->_description = $properties["description"];
+			if(!empty($properties["thumb"]))
+				$this->_thumb = $properties["thumb"];
+			if(!empty($properties["lang"]))
+				$this->_lang = $properties["lang"];
 		}
 	}
-?>

@@ -4,6 +4,10 @@
 	 * All right reserved to fitzlucassen repository on github*
 	 ************* https://github.com/fitzlucassen ************
 	 **********************************************************/
+	namespace fitzlucassen\FLFramework\Data\Entity;
+
+	use fitzlucassen\FLFramework\Library\Core as cores;
+
 	class Album {
 		private $_id;
 		private $_title;
@@ -12,8 +16,10 @@
 		private $_thumb;
 		private $_lang;
 		private $_songs;
+		private $_queryBuilder;
 
-		public function __construct($id, $title, $description, $date, $thumb, $lang){
+		public function __construct($id = "", $title = "", $description = "", $date = "", $thumb = "", $lang = ""){
+			$this->_queryBuilder = new cores\QueryBuilder(true);
 			$this->fillObject(array("id" => $id, "title" => $title, "description" => $description, "date" => $date, "thumb" => $thumb, "lang" => $lang));
 		}
 
@@ -39,9 +45,18 @@
 			return $this->_lang;
 		}
 		public function getSongs() {
-			$query = "SELECT * FROM song WHERE idAlbum=" . $this->_id;
+			$query = $this->_queryBuilder->select() 
+											  ->from("song")
+											  ->where(array(array("link" => "", "left" => "idAlbum", "operator" => "=", "right" => $this->_id)))->getQuery();
 			try {
-				return $this->_pdo->SelectTable($query);
+				$result = $this->_pdo->SelectTable($query);
+				$array = array();
+				foreach ($result as $object){
+					$o = new Song();
+					$o->fillObject($object);
+					$array[] = $o;
+				}
+				return $array;
 			}
 			catch(PDOException $e){
 				print $e->getMessage();
@@ -54,12 +69,17 @@
 		 *******/
 
 		public function fillObject($properties) {
-			$this->_id = $properties["id"];
-			$this->_title = $properties["title"];
-			$this->_description = $properties["description"];
-			$this->_date = $properties["date"];
-			$this->_thumb = $properties["thumb"];
-			$this->_lang = $properties["lang"];
+			if(!empty($properties["id"]))
+				$this->_id = $properties["id"];
+			if(!empty($properties["title"]))
+				$this->_title = $properties["title"];
+			if(!empty($properties["description"]))
+				$this->_description = $properties["description"];
+			if(!empty($properties["date"]))
+				$this->_date = $properties["date"];
+			if(!empty($properties["thumb"]))
+				$this->_thumb = $properties["thumb"];
+			if(!empty($properties["lang"]))
+				$this->_lang = $properties["lang"];
 		}
 	}
-?>

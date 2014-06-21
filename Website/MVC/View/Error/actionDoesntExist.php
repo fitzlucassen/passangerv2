@@ -11,7 +11,7 @@
 <div id="ErrorPage">
     <p>Visiblement, vous tentez d'exécuter une action qui n'existe pas.</p>
     <ul>
-	<li>Vérifier que la fonction <b><?php echo $Model->_modelTarget; ?></b> du contrôleur <b><?php echo $Model->_controllerTarget; ?></b>, existe bien.</li>
+	<li>Vérifier que la fonction <b><?php echo $this->Model->_modelTarget; ?></b> du contrôleur <b><?php echo $this->Model->_controllerTarget; ?></b>, existe bien.</li>
 	<li>De même, vérifiez que vous ne vous trompez pas de controller.</li>
     </ul>
 </div>

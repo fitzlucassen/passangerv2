@@ -4,6 +4,10 @@
 	 * All right reserved to fitzlucassen repository on github*
 	 ************* https://github.com/fitzlucassen ************
 	 **********************************************************/
+	namespace fitzlucassen\FLFramework\Data\Entity;
+
+	use fitzlucassen\FLFramework\Library\Core as cores;
+
 	class Song {
 		private $_id;
 		private $_filename;
@@ -13,8 +17,10 @@
 		private $_lang;
 		private $_album;
 		private $_idAlbum;
+		private $_queryBuilder;
 
-		public function __construct($id, $filename, $title, $description, $duration, $lang, $idAlbum){
+		public function __construct($id = "", $filename = "", $title = "", $description = "", $duration = "", $lang = "", $idAlbum = ""){
+			$this->_queryBuilder = new cores\QueryBuilder(true);
 			$this->fillObject(array("id" => $id, "filename" => $filename, "title" => $title, "description" => $description, "duration" => $duration, "lang" => $lang, "idAlbum" => $idAlbum));
 		}
 
@@ -40,9 +46,14 @@
 			return $this->_lang;
 		}
 		public function getAlbum() {
-			$query = "SELECT * FROM album WHERE idAlbum=" . $this->_idAlbum;
+			$query = $this->_queryBuilder->select() 
+											  ->from("album")
+											  ->where(array(array("link" => "", "left" => "id", "operator" => "=", "right" => $this->_idAlbum)))->getQuery();
 			try {
-				return $this->_pdo->Select($query);
+				$result = $this->_pdo->Select($query);
+				$o = new Album();
+				$o->fillObject($result);
+				return $o;
 			}
 			catch(PDOException $e){
 				print $e->getMessage();
@@ -58,13 +69,19 @@
 		 *******/
 
 		public function fillObject($properties) {
-			$this->_id = $properties["id"];
-			$this->_filename = $properties["filename"];
-			$this->_title = $properties["title"];
-			$this->_description = $properties["description"];
-			$this->_duration = $properties["duration"];
-			$this->_lang = $properties["lang"];
-			$this->_idAlbum = $properties["idAlbum"];
+			if(!empty($properties["id"]))
+				$this->_id = $properties["id"];
+			if(!empty($properties["filename"]))
+				$this->_filename = $properties["filename"];
+			if(!empty($properties["title"]))
+				$this->_title = $properties["title"];
+			if(!empty($properties["description"]))
+				$this->_description = $properties["description"];
+			if(!empty($properties["duration"]))
+				$this->_duration = $properties["duration"];
+			if(!empty($properties["lang"]))
+				$this->_lang = $properties["lang"];
+			if(!empty($properties["idAlbum"]))
+				$this->_idAlbum = $properties["idAlbum"];
 		}
 	}
-?>

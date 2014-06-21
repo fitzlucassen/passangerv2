@@ -4,24 +4,39 @@
 	 * All right reserved to fitzlucassen repository on github*
 	 ************* https://github.com/fitzlucassen ************
 	 **********************************************************/
+	namespace fitzlucassen\FLFramework\Data\Repository;
+
+	use fitzlucassen\FLFramework\Library\Core as cores;
+	use fitzlucassen\FLFramework\Data\Entity as entities;
+
 	class MemberRepository {
 		private $_pdo;
 		private $_lang;
 		private $_pdoHelper;
+		private $_queryBuilder;
 
 		public function __construct($pdo, $lang){
 			$this->_pdoHelper = $pdo;
 			$this->_pdo = $pdo->GetConnection();
+			$this->_queryBuilder = new cores\QueryBuilder(true);
 			$this->_lang = $lang;
 		}
 
 		/**************************
 		 * REPOSITORIES FUNCTIONS *
 		 **************************/
-		public function getAll(){
-			$query = "SELECT * FROM member";
+		public static function getAll($Connection){
+			$qb = new cores\QueryBuilder(true);
+			$query = $qb->select()->from(array("member"))->getQuery();
 			try {
-				return $this->_pdo->SelectTable($query);
+				$result = $Connection->SelectTable($query);
+				$array = array();
+				foreach ($result as $object){
+					$o = new entities\Member();
+					$o->fillObject($object);
+					$array[] = $o;
+				}
+				return $array;
 			}
 			catch(PDOException $e){
 				print $e->getMessage();
@@ -30,10 +45,11 @@
 		}
 
 		public function getById($id){
-			$query = "SELECT * FROM member WHERE id=" . $id;
+			$query = $this->_queryBuilder->select()->from(array("member"))
+										->where(array(array("link" => "", "left" => "id", "operator" => "=", "right" => $id)))->getQuery();
 			try {
-				$properties = $this->_pdo->Select($query);
-				$object = new Member();
+				$properties = $this->_pdoHelper->Select($query);
+				$object = new entities\Member();
 				$object->fillObject($properties);
 				return $object;
 			}
@@ -43,8 +59,29 @@
 			return array();
 		}
 
+		public function getBy($key, $value){
+			$query = $this->_queryBuilder->select()->from(array("member"))
+										->where(array(array("link" => "", "left" => $key, "operator" => "=", "right" => $value)))->getQuery();
+			try {
+				$properties = $this->_pdoHelper->SelectTable($query);
+				$array = array();
+				foreach ($properties as $object){
+					$o = new entities\Member();
+					$o->fillObject($object);
+					$array[] = $o;
+				}
+				return $array;
+			}
+			catch(PDOException $e){
+				print $e->getMessage();
+			}
+			return array();
+		}
+
 		public function delete($id) {
-			$query = "DELETE FROM member WHERE id=" . $id;
+			$query = $this->_queryBuilder->delete("member")
+										->where(array(array("link" => "", "left" => "id", "operator" => "=", "right" => $id )))
+										->getQuery();
 			try {
 				return $this->_pdo->Query($query);
 			}
@@ -55,8 +92,7 @@
 		}
 
 		public function add($properties) {
-			$query = "INSERT INTO member('id', 'name', 'firstname', 'surname', 'picture', 'birthday', 'instrument', 'influences', 'description', 'lang')
-				VALUES(" . $properties["id"] . ", '" . $properties["name"] . "', '" . $properties["firstname"] . "', '" . $properties["surname"] . "', '" . $properties["picture"] . "', '" . $properties["birthday"] . "', '" . $properties["instrument"] . "', '" . $properties["influences"] . "', '" . $properties["description"] . "', '" . $properties["lang"] . "')";
+			$query = $this->_queryBuilder->insert("member", array('name' => $properties["name"], 'firstname' => $properties["firstname"], 'surname' => $properties["surname"], 'picture' => $properties["picture"], 'birthday' => $properties["birthday"], 'instrument' => $properties["instrument"], 'influences' => $properties["influences"], 'description' => $properties["description"], 'lang' => $properties["lang"], ))->getQuery();
 			try {
 				return $this->_pdo->Query($query);
 			}
@@ -67,9 +103,7 @@
 		}
 
 		public function update($id, $properties) {
-			$query = "UPDATE member 
-				SET id = " . $properties["id"] . ", name = '" . $properties["name"] . "', firstname = '" . $properties["firstname"] . "', surname = '" . $properties["surname"] . "', picture = '" . $properties["picture"] . "', birthday = '" . $properties["birthday"] . "', instrument = '" . $properties["instrument"] . "', influences = '" . $properties["influences"] . "', description = '" . $properties["description"] . "', lang = '" . $properties["lang"] . "'
-				WHERE id=" . $id;
+			$query = $this->_queryBuilder->update("member", array('name' => $properties["name"], 'firstname' => $properties["firstname"], 'surname' => $properties["surname"], 'picture' => $properties["picture"], 'birthday' => $properties["birthday"], 'instrument' => $properties["instrument"], 'influences' => $properties["influences"], 'description' => $properties["description"], 'lang' => $properties["lang"], ))->where(array(array("link" => "", "left" => "id", "operator" => "=", "right" => $id )))->getQuery();
 			try {
 				return $this->_pdo->Query($query);
 			}
@@ -83,4 +117,3 @@
 		 *******/
 
 	}
-?>

@@ -4,24 +4,39 @@
 	 * All right reserved to fitzlucassen repository on github*
 	 ************* https://github.com/fitzlucassen ************
 	 **********************************************************/
+	namespace fitzlucassen\FLFramework\Data\Repository;
+
+	use fitzlucassen\FLFramework\Library\Core as cores;
+	use fitzlucassen\FLFramework\Data\Entity as entities;
+
 	class LinkRepository {
 		private $_pdo;
 		private $_lang;
 		private $_pdoHelper;
+		private $_queryBuilder;
 
 		public function __construct($pdo, $lang){
 			$this->_pdoHelper = $pdo;
 			$this->_pdo = $pdo->GetConnection();
+			$this->_queryBuilder = new cores\QueryBuilder(true);
 			$this->_lang = $lang;
 		}
 
 		/**************************
 		 * REPOSITORIES FUNCTIONS *
 		 **************************/
-		public function getAll(){
-			$query = "SELECT * FROM link";
+		public static function getAll($Connection){
+			$qb = new cores\QueryBuilder(true);
+			$query = $qb->select()->from(array("link"))->getQuery();
 			try {
-				return $this->_pdo->SelectTable($query);
+				$result = $Connection->SelectTable($query);
+				$array = array();
+				foreach ($result as $object){
+					$o = new entities\Link();
+					$o->fillObject($object);
+					$array[] = $o;
+				}
+				return $array;
 			}
 			catch(PDOException $e){
 				print $e->getMessage();
@@ -30,10 +45,11 @@
 		}
 
 		public function getById($id){
-			$query = "SELECT * FROM link WHERE id=" . $id;
+			$query = $this->_queryBuilder->select()->from(array("link"))
+										->where(array(array("link" => "", "left" => "id", "operator" => "=", "right" => $id)))->getQuery();
 			try {
-				$properties = $this->_pdo->Select($query);
-				$object = new Link();
+				$properties = $this->_pdoHelper->Select($query);
+				$object = new entities\Link();
 				$object->fillObject($properties);
 				return $object;
 			}
@@ -43,8 +59,29 @@
 			return array();
 		}
 
+		public function getBy($key, $value){
+			$query = $this->_queryBuilder->select()->from(array("link"))
+										->where(array(array("link" => "", "left" => $key, "operator" => "=", "right" => $value)))->getQuery();
+			try {
+				$properties = $this->_pdoHelper->SelectTable($query);
+				$array = array();
+				foreach ($properties as $object){
+					$o = new entities\Link();
+					$o->fillObject($object);
+					$array[] = $o;
+				}
+				return $array;
+			}
+			catch(PDOException $e){
+				print $e->getMessage();
+			}
+			return array();
+		}
+
 		public function delete($id) {
-			$query = "DELETE FROM link WHERE id=" . $id;
+			$query = $this->_queryBuilder->delete("link")
+										->where(array(array("link" => "", "left" => "id", "operator" => "=", "right" => $id )))
+										->getQuery();
 			try {
 				return $this->_pdo->Query($query);
 			}
@@ -55,8 +92,7 @@
 		}
 
 		public function add($properties) {
-			$query = "INSERT INTO link('id', 'title', 'href', 'lang')
-				VALUES(" . $properties["id"] . ", '" . $properties["title"] . "', '" . $properties["href"] . "', '" . $properties["lang"] . "')";
+			$query = $this->_queryBuilder->insert("link", array('title' => $properties["title"], 'href' => $properties["href"], 'lang' => $properties["lang"], ))->getQuery();
 			try {
 				return $this->_pdo->Query($query);
 			}
@@ -67,9 +103,7 @@
 		}
 
 		public function update($id, $properties) {
-			$query = "UPDATE link 
-				SET id = " . $properties["id"] . ", title = '" . $properties["title"] . "', href = '" . $properties["href"] . "', lang = '" . $properties["lang"] . "'
-				WHERE id=" . $id;
+			$query = $this->_queryBuilder->update("link", array('title' => $properties["title"], 'href' => $properties["href"], 'lang' => $properties["lang"], ))->where(array(array("link" => "", "left" => "id", "operator" => "=", "right" => $id )))->getQuery();
 			try {
 				return $this->_pdo->Query($query);
 			}
@@ -83,4 +117,3 @@
 		 *******/
 
 	}
-?>

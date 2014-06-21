@@ -4,35 +4,39 @@
 	 * All right reserved to fitzlucassen repository on github*
 	 ************* https://github.com/fitzlucassen ************
 	 **********************************************************/
+	namespace fitzlucassen\FLFramework\Data\Repository;
+
+	use fitzlucassen\FLFramework\Library\Core as cores;
+	use fitzlucassen\FLFramework\Data\Entity as entities;
+
 	class UserRepository {
 		private $_pdo;
 		private $_lang;
 		private $_pdoHelper;
+		private $_queryBuilder;
 
 		public function __construct($pdo, $lang){
 			$this->_pdoHelper = $pdo;
 			$this->_pdo = $pdo->GetConnection();
+			$this->_queryBuilder = new cores\QueryBuilder(true);
 			$this->_lang = $lang;
-		}
-		
-		public function getByLogin($login, $pwd){
-			$query = "SELECT * FROM user WHERE login='" . $login . "' AND password='" . md5($pwd) . "'";
-			try {
-				return $this->_pdoHelper->SelectTable($query);
-			}
-			catch(PDOException $e){
-				print $e->getMessage();
-			}
-			return array();
 		}
 
 		/**************************
 		 * REPOSITORIES FUNCTIONS *
 		 **************************/
-		public function getAll(){
-			$query = "SELECT * FROM user";
+		public static function getAll($Connection){
+			$qb = new cores\QueryBuilder(true);
+			$query = $qb->select()->from(array("user"))->getQuery();
 			try {
-				return $this->_pdoHelper->SelectTable($query);
+				$result = $Connection->SelectTable($query);
+				$array = array();
+				foreach ($result as $object){
+					$o = new entities\User();
+					$o->fillObject($object);
+					$array[] = $o;
+				}
+				return $array;
 			}
 			catch(PDOException $e){
 				print $e->getMessage();
@@ -41,10 +45,11 @@
 		}
 
 		public function getById($id){
-			$query = "SELECT * FROM user WHERE id=" . $id;
+			$query = $this->_queryBuilder->select()->from(array("user"))
+										->where(array(array("link" => "", "left" => "id", "operator" => "=", "right" => $id)))->getQuery();
 			try {
 				$properties = $this->_pdoHelper->Select($query);
-				$object = new User();
+				$object = new entities\User();
 				$object->fillObject($properties);
 				return $object;
 			}
@@ -54,10 +59,31 @@
 			return array();
 		}
 
-		public function delete($id) {
-			$query = "DELETE FROM user WHERE id=" . $id;
+		public function getBy($key, $value){
+			$query = $this->_queryBuilder->select()->from(array("user"))
+										->where(array(array("link" => "", "left" => $key, "operator" => "=", "right" => $value)))->getQuery();
 			try {
-				return $this->_pdoHelper->Query($query);
+				$properties = $this->_pdoHelper->SelectTable($query);
+				$array = array();
+				foreach ($properties as $object){
+					$o = new entities\User();
+					$o->fillObject($object);
+					$array[] = $o;
+				}
+				return $array;
+			}
+			catch(PDOException $e){
+				print $e->getMessage();
+			}
+			return array();
+		}
+
+		public function delete($id) {
+			$query = $this->_queryBuilder->delete("user")
+										->where(array(array("link" => "", "left" => "id", "operator" => "=", "right" => $id )))
+										->getQuery();
+			try {
+				return $this->_pdo->Query($query);
 			}
 			catch(PDOException $e){
 				print $e->getMessage();
@@ -66,10 +92,9 @@
 		}
 
 		public function add($properties) {
-			$query = "INSERT INTO user('id', 'login', 'password', 'email', 'role')
-				VALUES(" . $properties["id"] . ", '" . $properties["login"] . "', '" . $properties["password"] . "', '" . $properties["email"] . "', " . $properties["role"] . ")";
+			$query = $this->_queryBuilder->insert("user", array('login' => $properties["login"], 'password' => $properties["password"], 'email' => $properties["email"], 'role' => $properties["role"], ))->getQuery();
 			try {
-				return $this->_pdoHelper->Query($query);
+				return $this->_pdo->Query($query);
 			}
 			catch(PDOException $e){
 				print $e->getMessage();
@@ -78,11 +103,9 @@
 		}
 
 		public function update($id, $properties) {
-			$query = "UPDATE user 
-				SET id = " . $properties["id"] . ", login = '" . $properties["login"] . "', password = '" . $properties["password"] . "', email = '" . $properties["email"] . "', role = " . $properties["role"] . "
-				WHERE id=" . $id;
+			$query = $this->_queryBuilder->update("user", array('login' => $properties["login"], 'password' => $properties["password"], 'email' => $properties["email"], 'role' => $properties["role"], ))->where(array(array("link" => "", "left" => "id", "operator" => "=", "right" => $id )))->getQuery();
 			try {
-				return $this->_pdoHelper->Query($query);
+				return $this->_pdo->Query($query);
 			}
 			catch(PDOException $e){
 				print $e->getMessage();
@@ -94,4 +117,3 @@
 		 *******/
 
 	}
-?>

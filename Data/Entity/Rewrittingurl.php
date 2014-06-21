@@ -4,14 +4,20 @@
 	 * All right reserved to fitzlucassen repository on github*
 	 ************* https://github.com/fitzlucassen ************
 	 **********************************************************/
+	namespace fitzlucassen\FLFramework\Data\Entity;
+
+	use fitzlucassen\FLFramework\Library\Core as cores;
+
 	class Rewrittingurl {
 		private $_id;
 		private $_routeurl;
 		private $_idRouteUrl;
 		private $_urlMatched;
 		private $_lang;
+		private $_queryBuilder;
 
 		public function __construct($id = "", $idRouteUrl = "", $urlMatched = "", $lang = ""){
+			$this->_queryBuilder = new cores\QueryBuilder(true);
 			$this->fillObject(array("id" => $id, "idRouteUrl" => $idRouteUrl, "urlMatched" => $urlMatched, "lang" => $lang));
 		}
 
@@ -22,9 +28,13 @@
 			return $this->_id;
 		}
 		public function getRouteUrl() {
-			$query = "SELECT * FROM routeurl WHERE idRouteurl=" . $this->_idRouteurl;
+			$query = $this->_queryBuilder->select()->from("routeurl")
+								->where(array(array("link" => "", "left" => "id", "operator" => "=", "right" => $this->_idRouteUrl)))->getQuery();
 			try {
-				return $this->_pdo->Select($query);
+			    $result = $this->_pdo->Select($query);
+			    $o = new Routeurl();
+			    $o->fillObject($result);
+			    return $o;
 			}
 			catch(PDOException $e){
 				print $e->getMessage();
@@ -56,4 +66,3 @@
 				$this->_lang = $properties["lang"];
 		}
 	}
-?>
