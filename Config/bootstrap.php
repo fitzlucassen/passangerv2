@@ -1,4 +1,6 @@
 <?php
+    ini_set('display_errors', TRUE);
+    ini_set('display_startup_errors', TRUE);
     use fitzlucassen\FLFramework\Library\Core;
     
     // facultative var. Mandatory if you have something like 'localhost/mywebsite'
@@ -14,7 +16,7 @@
     Core\Sql::SetDb("passangerv2");
     Core\Sql::SetHost("localhost");
     Core\Sql::SetUser("root");
-    Core\Sql::SetPwd("");
+    Core\Sql::SetPwd("aze123*/");
     // End SQL config
     
     /* FOR DEVELOPER ONLY */
