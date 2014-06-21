@@ -20,16 +20,18 @@
 
     <body>
 	<div id="global">
-	    <?php
-		include(__partial_directory__ . "/header.php");
-	    ?>
-	    <?php
-		// Inclusion de la vue cible
-		$this->Render($this->Body);
-	    ?>
-	    <?php
-		include(__partial_directory__ . "/footer.php");
-	    ?>
+            <div id="page-wrapper">
+                <?php
+                    include(__partial_directory__ . "/header.php");
+                ?>
+                <?php
+                    // Inclusion de la vue cible
+                    $this->Render($this->Body);
+                ?>
+                <?php
+                    include(__partial_directory__ . "/footer.php");
+                ?>
+            </div>
 	</div>
     </body>
 </html>
