@@ -6,21 +6,21 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch')
 
     var jsSrc = ['Website/Content/Js/home.js', 'Website/Content/Js/Base/*.js']
-    var jsDist = 'dist/built.js'
+    var jsDist = 'Website/Content/Js/_built.js'
 
     // Configuration de Grunt
     grunt.initConfig({
         sass: {
             dist: {
                 options: {
-                    style: 'expanded'
+                    style: 'compressed'
                 },
                 files: [{
                     "expand": true,
-                    "cwd": "src/styles/",
+                    "cwd": "Website/Content/Sass/",
                     "src": ["*.scss"],
-                    "dest": "dist/styles/",
-                    "ext": ".css"
+                    "dest": "Website/Content/Css/",
+                    "ext": "_built.css"
                 }]
             },
             dev: {} // A vous de le faire ! vous verrez que certaines options Sass sont plus intéressantes en mode dev que d'autres.
@@ -50,7 +50,7 @@ module.exports = function(grunt) {
             },
             styles: {
                 files: '**/*.scss',
-                tasks: ['styles:dev']
+                tasks: ['sass']
             }
         }
     })
