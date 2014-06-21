@@ -8,7 +8,7 @@
 
 	use fitzlucassen\FLFramework\Library\Core as cores;
 
-	class Routeurl {
+	class RouteUrl {
 		private $_id;
 		private $_name;
 		private $_controller;

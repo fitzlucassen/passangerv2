@@ -9,7 +9,7 @@
 	use fitzlucassen\FLFramework\Library\Core as cores;
 	use fitzlucassen\FLFramework\Data\Entity as entities;
 
-	class RewrittingurlRepository {
+	class RewrittingUrlRepository {
 		private $_pdo;
 		private $_lang;
 		private $_pdoHelper;
@@ -81,7 +81,7 @@
 				$result = $Connection->SelectTable($query);
 				$array = array();
 				foreach ($result as $object){
-					$o = new entities\Rewrittingurl();
+					$o = new entities\RewrittingUrl();
 					$o->fillObject($object);
 					$array[] = $o;
 				}
@@ -98,7 +98,7 @@
 								->where(array(array("link" => "", "left" => "id", "operator" => "=", "right" => $id)))->getQuery();
 			try {
 				$properties = $this->_pdoHelper->Select($query);
-				$object = new entities\Rewrittingurl();
+				$object = new entities\RewrittingUrl();
 				$object->fillObject($properties);
 				return $object;
 			}
@@ -153,7 +153,7 @@
 				$result = $this->_pdo->SelectTable($query);
 				$array = array();
 				foreach ($result as $object){
-				    $o = new entities\Rewrittingurl();
+				    $o = new entities\RewrittingUrl();
 				    $o->fillObject($object);
 				    $array[] = $o;
 				}

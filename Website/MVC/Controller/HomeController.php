@@ -15,6 +15,7 @@
 		}
 		
 		public function Index(){
+                    
 		    // Une action commencera toujours par l'initilisation de son modèle
 		    // Cette initialisation doit obligatoirement contenir le repository manager
 		    $Model = new models\HomeModel($this->_repositoryManager);

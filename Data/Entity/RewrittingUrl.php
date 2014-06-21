@@ -8,7 +8,7 @@
 
 	use fitzlucassen\FLFramework\Library\Core as cores;
 
-	class Rewrittingurl {
+	class RewrittingUrl {
 		private $_id;
 		private $_routeurl;
 		private $_idRouteUrl;

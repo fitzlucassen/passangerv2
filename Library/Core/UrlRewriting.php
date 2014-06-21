@@ -31,7 +31,7 @@
     		
     		$this->_langRepository = $this->_repositoryManager->get('Lang');
     		$this->_rewrittingUrlRepository = $this->_repositoryManager->get('RewrittingUrl');
-    		$this->_routeUrlRepository = $this->_repositoryManager->get('Routeurl');
+    		$this->_routeUrlRepository = $this->_repositoryManager->get('RouteUrl');
     	}
 
 		public function loadRoutes($page){

@@ -2,6 +2,7 @@
 <title>FLFramework - Le framework PHP français</title>
 
 <?php
+
     // inclure ci-dessus les balises à inclure dans la balise <head> du layout
     $head = $this->RegisterViewHead();
     // START CONTENT

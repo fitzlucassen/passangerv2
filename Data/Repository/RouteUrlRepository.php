@@ -9,7 +9,7 @@
 	use fitzlucassen\FLFramework\Library\Core as cores;
 	use fitzlucassen\FLFramework\Data\Entity as entities;
 
-	class RouteurlRepository {
+	class RouteUrlRepository {
 		private $_pdo;
 		private $_lang;
 		private $_pdoHelper;
@@ -77,7 +77,7 @@
 				$result = $Connection->SelectTable($query);
 				$array = array();
 				foreach ($result as $object){
-					$o = new entities\Routeurl();
+					$o = new entities\RouteUrl();
 					$o->fillObject($object);
 					$array[] = $o;
 				}
@@ -94,7 +94,7 @@
 										->where(array(array("link" => "", "left" => "id", "operator" => "=", "right" => $id)))->getQuery();
 			try {
 				$properties = $this->_pdoHelper->Select($query);
-				$object = new entities\Routeurl();
+				$object = new entities\RouteUrl();
 				$object->fillObject($properties);
 				return $object;
 			}
@@ -149,7 +149,7 @@
 				$result = $this->_pdo->SelectTable($query);
 				$array = array();
 				foreach ($result as $object){
-				    $o = new entities\Routeurl();
+				    $o = new entities\RouteUrl();
 				    $o->fillObject($object);
 				    $array[] = $o;
 				}

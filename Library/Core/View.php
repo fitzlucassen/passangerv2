@@ -46,8 +46,10 @@
 	    
 	    // Mise en cache de la vue
 	    ob_start();
-	    include __view_directory__ . "/" . $this->_controller . "/" . $this->_action . ".php";
+	    include __view_directory__ . "/" . ucfirst($this->_controller) . "/" . $this->_action . ".php";
+           
 	    $content = ob_get_clean();
+           
 	    
 	    // On récupère le contenue en cache (si layout rss --> on n'a pas de head)
 	    if($this->_layout !== "rss")
