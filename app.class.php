@@ -217,6 +217,7 @@
 		 */
 		public static function ManageAutoload($class){
 		    $file = str_replace('fitzlucassen/FLFramework/', '', trim(str_replace(array('\\', '_'), '/', $class), '/')).'.php';
+
 		    if(file_exists($file))
 				require_once $file;
 		}
