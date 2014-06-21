@@ -1,1 +1,5 @@
-/nbproject/private/Config/bootstrap.php
+/nbproject/private/
+/Logs/
+/Cache/
+/node_modules/
+/Config/boostrap.php
