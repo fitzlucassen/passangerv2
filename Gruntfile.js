@@ -20,7 +20,7 @@ module.exports = function(grunt) {
                     "cwd": "Website/Content/Sass/",
                     "src": ["*.scss"],
                     "dest": "Website/Content/Css/",
-                    "ext": "_built.css"
+                    "ext": ".css"
                 }]
             },
             dev: {} // A vous de le faire ! vous verrez que certaines options Sass sont plus intéressantes en mode dev que d'autres.
