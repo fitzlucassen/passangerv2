@@ -27,8 +27,12 @@
             <div class="portrait" data-uid="<name user>">
                 <img src="<path to img>" alt="portrait" />
             </div>
+            <div class="clear"></div>
         </div>
         <div id="portrait-description-container">
+            <div class="portrait-description portrait-description-groupe" data-uid="<name user>">
+                ici description générale du groupe
+            </div>
             <div class="portrait-description" data-uid="<name user>">
                
             </div>
