@@ -8,3 +8,50 @@
     // START CONTENT
     // Intégrer ci-dessous la vue
 ?>
+<?php /** BIO **/ ?>
+<div class="home-sequence home-sequence-bio">
+    <div id="home-bio-container">
+        <div id="portrait-container">
+            <div class="portrait" data-uid="<name user>">
+                <img src="<path to img>" alt="portrait" />
+            </div>
+            <div class="portrait" data-uid="<name user>">
+                <img src="<path to img>" alt="portrait" />
+            </div>
+            <div class="portrait" data-uid="<name user>">
+                <img src="<path to img>" alt="portrait" />
+            </div>
+            <div class="portrait" data-uid="<name user>">
+                <img src="<path to img>" alt="portrait" />
+            </div>
+            <div class="portrait" data-uid="<name user>">
+                <img src="<path to img>" alt="portrait" />
+            </div>
+        </div>
+        <div id="portrait-description-container">
+            <div class="portrait-description" data-uid="<name user>">
+               
+            </div>
+            <div class="portrait-description" data-uid="<name user>">
+                
+            </div>
+            <div class="portrait-description" data-uid="<name user>">
+               
+            </div>
+            <div class="portrait-description" data-uid="<name user>">
+                
+            </div>
+            <div class="portrait-description" data-uid="<name user>">
+               
+            </div>
+        </div>
+    </div>
+</div>
+<?php /** NEWS **/ ?>
+<div class="home-sequence home-sequence-news">
+    
+</div>
+<?php /** MEDIA **/ ?>
+<div class="home-sequence home-sequence-media">
+    
+</div>

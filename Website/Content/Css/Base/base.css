@@ -6,7 +6,7 @@
 }
 
 /* UTILITIES CLASSES */
-.left{float: left;}.right{float:right;}.alignCenter{text-align:center;}.cl{clear:both;}.vAlign{vertical-align:middle;}
+.left{float: left;}.right{float:right;}.alignCenter{text-align:center;}.clear{clear:both;height:0;border:0 none;}.vAlign{vertical-align:middle;}
 
 /* LAYOUT */
 html, body{
