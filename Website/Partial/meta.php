@@ -28,6 +28,7 @@
 
 <link type="text/css" rel="stylesheet" href="/<?php echo __css_directory__; ?>/Base/reset.css" />
 <link type="text/css" rel="stylesheet" href="/<?php echo __css_directory__; ?>/Base/base.css" />
+<link type="text/css" rel="stylesheet" href="/<?php echo __css_directory__; ?>/Base/font-awesome.css" />
 
 <!-- Required script -->
 <script type="text/javascript" src="/<?php echo __js_directory__  ; ?>/Base/jquery-1.10.min.js"></script>
