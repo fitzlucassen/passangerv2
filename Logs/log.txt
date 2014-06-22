@@ -1,2 +1,0 @@
-21-06-14 23:15:55 --> not found : controllerClassDoesntExist \fitzlucassen\FLFramework\Website\MVC\Controller\Favicon.icoController.php
-21-06-14 23:15:55 --> not found : controllerClassDoesntExist \fitzlucassen\FLFramework\Website\MVC\Controller\Favicon.icoController.php

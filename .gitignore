@@ -1,6 +1,6 @@
 /nbproject/private/
-/Logs/
+/Logs/*
 /Cache/
 /node_modules/
-/Config/boostrap.php
-.sass-cache/
+/Config/bootstrap.php
+/.sass-cache/
