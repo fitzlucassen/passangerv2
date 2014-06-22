@@ -30,10 +30,10 @@
 <link type="text/css" rel="stylesheet" href="/<?php echo __css_directory__; ?>/Base/base.css" />
 <link type="text/css" rel="stylesheet" href="/<?php echo __css_directory__; ?>/Base/font-awesome.css" />
 
+<link type="text/css" rel="stylesheet" href="/<?php echo __css_directory__; ?>/main.css" />
+
 <!-- Required script -->
-<script type="text/javascript" src="/<?php echo __js_directory__  ; ?>/Base/jquery-1.10.min.js"></script>
-<script type="text/javascript" src="/<?php echo __js_directory__  ; ?>/Base/helper.js"></script>
-<script type="text/javascript" src="/<?php echo __js_directory__  ; ?>/Base/base.js"></script>
+<script type="text/javascript" src="/<?php echo __js_directory__  ; ?>/Base/_built.js"></script>
 
 <!--[if lt IE 9]>
 	<script src="<?php echo __js_directory__  ; ?>/Base/html5shiv.js"></script>
