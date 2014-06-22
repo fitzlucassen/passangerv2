@@ -22,7 +22,8 @@ $text_color: #fff;
 @mixin custom-shadow($v, $h, $p, $a){
 	@include box-shadow($v $h $p rgba(200, 200, 200, $a));
 }
-@mixin custom-light-blocks(){
+@mixin custom-light-blocks($width){
+       width:$width;
        background:darken($text_color,4%);
        padding:10px;
        color:$main_color_darken;

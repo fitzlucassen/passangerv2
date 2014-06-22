@@ -83,8 +83,8 @@
             
         </div>
         <?php /** NEWS - EVENT **/ ?>
-        <div class="left" id="home-news-event">
-            
+        <div class="right" id="home-news-event">
+            <h2><?php echo _('Evénements à venir') ?><i class="fa fa-rss fa-fw"></i></h2>
         </div>
         <div class="clear"></div>
     </div>

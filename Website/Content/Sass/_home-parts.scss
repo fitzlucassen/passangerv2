@@ -28,10 +28,9 @@ and open the template in the editor.
         }
     }
     #portrait-description-container{
-        width:85%;
         min-height:100px;
         margin: 0 auto;
-        @include custom-light-blocks();
+        @include custom-light-blocks(85%);
     }
 }
 .home-sequence-news{
@@ -41,8 +40,7 @@ and open the template in the editor.
         width:85%;
         margin:0 auto;
         #home-news-article{
-            @include custom-light-blocks();
-            width:40%;
+            @include custom-light-blocks(42%);
             h2{
                 padding:0px 0px 5px;
                 border-bottom: 2px solid lighten($main_color_degrade,20%);
@@ -61,6 +59,17 @@ and open the template in the editor.
             .last{
                 border-bottom: 0 none;
                 padding:10px 5px 0px;
+            }
+        }
+        #home-news-event{
+            @include custom-light-blocks(42%);
+            h2{
+                padding:0px 0px 5px;
+                border-bottom: 2px solid lighten($main_color_degrade,20%);
+                i{
+                    color: lighten($main_color_degrade,20%);
+                    text-align:right;
+                }
             }
         }
     }
