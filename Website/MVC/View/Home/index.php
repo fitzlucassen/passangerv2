@@ -1,4 +1,3 @@
-<link type="text/css" rel="stylesheet" href="<?php echo __css_directory__;?>/home.css" />
 <title>FLFramework - Le framework PHP français</title>
 
 <?php
@@ -12,19 +11,19 @@
 <div class="home-sequence home-sequence-bio">
     <div id="home-bio-container">
         <div id="portrait-container">
-            <div class="portrait" data-uid="<name user>">
+            <div class="portrait left" data-uid="<name user>">
                 <img src="<path to img>" alt="portrait" />
             </div>
-            <div class="portrait" data-uid="<name user>">
+            <div class="portrait left" data-uid="<name user>">
                 <img src="<path to img>" alt="portrait" />
             </div>
-            <div class="portrait" data-uid="<name user>">
+            <div class="portrait left" data-uid="<name user>">
                 <img src="<path to img>" alt="portrait" />
             </div>
-            <div class="portrait" data-uid="<name user>">
+            <div class="portrait left" data-uid="<name user>">
                 <img src="<path to img>" alt="portrait" />
             </div>
-            <div class="portrait" data-uid="<name user>">
+            <div class="portrait left" data-uid="<name user>">
                 <img src="<path to img>" alt="portrait" />
             </div>
             <div class="clear"></div>
@@ -56,6 +55,7 @@
     <div id="home-news-container">
         <?php /** NEWS - ARTICLE **/ ?>
         <div class="left" id="home-news-article">
+            <h2><?php echo _('Actualités récentes') ?><i class="fa fa-rss fa-fw"></i></h2>
             <?php /** ITEM NEWS **/ ?>
             <div class="news-article-line">
                 <div class="left news-article-img">
@@ -63,18 +63,20 @@
                 </div>
                 <div class="left">
                     <h3>News title</h3> 
-                    <p>News short description</p> 
+                    <p>News short description</p>
+                    <p class="news-date"><?php echo date('d/m/Y') ?></p>
                 </div>
                 <div class="clear"></div>
             </div>
              <?php /** ITEM NEWS **/ ?>
-            <div class="news-article-line">
+            <div class="news-article-line last">
                 <div class="left news-article-img">
                     <img src="<path to img>" />
                 </div>
                 <div class="left">
                     <h3>News title</h3> 
                     <p>News short description</p> 
+                    <p class="news-date"><?php echo date('d/m/Y') ?></p>
                 </div>
                 <div class="clear"></div>
             </div>
@@ -84,6 +86,7 @@
         <div class="left" id="home-news-event">
             
         </div>
+        <div class="clear"></div>
     </div>
 </div>
 <?php /** MEDIA **/ ?>

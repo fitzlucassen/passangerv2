@@ -8,7 +8,7 @@ $main_color_lighten: #507191;
 $main_color_darken: #323232;
 $main_color_degrade: #2C4950;
 $main_color_degrade2: #2C3250;
-$border_color: #3E3E3E;
+$border_color: #CECECE;
 $text_color: #fff;
 
 
@@ -18,4 +18,14 @@ $text_color: #fff;
 
 @mixin black-shadow($v, $h, $p, $a){
 	@include box-shadow($v $h $p rgba(0, 0, 0, $a));
+}
+@mixin custom-shadow($v, $h, $p, $a){
+	@include box-shadow($v $h $p rgba(200, 200, 200, $a));
+}
+@mixin custom-light-blocks(){
+       background:darken($text_color,4%);
+       padding:10px;
+       color:$main_color_darken;
+       @include radius(10px);
+       @include custom-shadow(2px,4px,0px,1);
 }
