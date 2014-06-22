@@ -13,15 +13,12 @@ module.exports = function(grunt) {
         sass: {
             dist: {
                 options: {
-                    style: 'compressed'
+                    style: 'compressed',
+                    compass: true
                 },
-                files: [{
-                    "expand": true,
-                    "cwd": "Website/Content/Sass/",
-                    "src": ["*.scss"],
-                    "dest": "Website/Content/Css/",
-                    "ext": ".css"
-                }]
+                files: {
+                    "Website/Content/Css/main.css": "Website/Content/Sass/main.scss",
+                }
             },
             dev: {} // A vous de le faire ! vous verrez que certaines options Sass sont plus intéressantes en mode dev que d'autres.
         },
