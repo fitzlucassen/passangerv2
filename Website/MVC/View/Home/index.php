@@ -53,9 +53,44 @@
 </div>
 <?php /** NEWS **/ ?>
 <div class="home-sequence home-sequence-news">
-    
+    <div id="home-news-container">
+        <?php /** NEWS - ARTICLE **/ ?>
+        <div class="left" id="home-news-article">
+            <?php /** ITEM NEWS **/ ?>
+            <div class="news-article-line">
+                <div class="left news-article-img">
+                    <img src="<path to img>" />
+                </div>
+                <div class="left">
+                    <h3>News title</h3> 
+                    <p>News short description</p> 
+                </div>
+                <div class="clear"></div>
+            </div>
+             <?php /** ITEM NEWS **/ ?>
+            <div class="news-article-line">
+                <div class="left news-article-img">
+                    <img src="<path to img>" />
+                </div>
+                <div class="left">
+                    <h3>News title</h3> 
+                    <p>News short description</p> 
+                </div>
+                <div class="clear"></div>
+            </div>
+            
+        </div>
+        <?php /** NEWS - EVENT **/ ?>
+        <div class="left" id="home-news-event">
+            
+        </div>
+    </div>
 </div>
 <?php /** MEDIA **/ ?>
 <div class="home-sequence home-sequence-media">
-    
+    <div id="home-media-container">
+        <div id="media-slideshow">
+            
+        </div>
+    </div>
 </div>
