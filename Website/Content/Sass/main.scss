@@ -1,12 +1,14 @@
+@import "theme.scss";
 @import "news";
 
-html {
-  height: 100%;
-  width: 100%;
-}
 .browsehappy {
   margin: 0.2em 0;
   background: #ccc;
   color: #000;
   padding: 0.2em 0;
+}
+#page-wrapper{
+	background: $main_color;
+	width: $page_size;
+	margin: auto;
 }

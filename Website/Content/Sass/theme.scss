@@ -1,0 +1,19 @@
+@import "compass/css3";
+@import "compass/utilities";
+
+$page_size : 1024px;
+
+$main_color : #2C3E50;
+$main_color_lighten: #507191;
+$main_color_degrade: #2C4950;
+$main_color_degrade2: #2C3250;
+$border_color: #3E3E3E;
+
+
+@mixin radius($px){
+	 @include border-radius($px, $px);
+}
+
+@mixin black-shadow($v, $h, $p, $a){
+	@include box-shadow($v $h $p rgba(0, 0, 0, $a));
+}
